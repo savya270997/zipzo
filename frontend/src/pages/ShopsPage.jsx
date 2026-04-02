@@ -12,6 +12,8 @@ const ShopsPage = () => {
   const [activeAddress, setActiveAddress] = useState(null);
   const [locStatus, setLocStatus] = useState("");
   const [visibleCount, setVisibleCount] = useState(9);
+  const [loading, setLoading] = useState(false);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -23,17 +25,28 @@ const ShopsPage = () => {
   }, [isAuthenticated]);
 
   const loadShops = async () => {
+    setLoading(true);
+    setLoadError("");
     try {
       const { data } = await api.get("/shops/nearby");
       setShops(data.shops || []);
-      setShopMeta({ city: data.city, postalCode: data.postalCode });
+      setShopMeta({
+        city: data.city || activeAddress?.city || "",
+        postalCode: data.postalCode || activeAddress?.postalCode || ""
+      });
       setVisibleCount(9);
       if (!activeAddress && data.city) {
         setActiveAddress({ city: data.city, postalCode: data.postalCode, label: data.addressLabel || "Default" });
       }
-    } catch {
+    } catch (error) {
       setShops([]);
-      setShopMeta({ city: "", postalCode: "" });
+      setShopMeta({
+        city: activeAddress?.city || "",
+        postalCode: activeAddress?.postalCode || ""
+      });
+      setLoadError(error.response?.data?.message || "Unable to load partner shops right now.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,15 +145,20 @@ const ShopsPage = () => {
           <div>
             <p className="section-kicker">Partnered shops</p>
             <h2 className="section-title">
-              Near you • {shopMeta.city || "Set address"} {shopMeta.postalCode ? `(${shopMeta.postalCode})` : ""}
+              Near you • {shopMeta.city || activeAddress?.city || "Set address"} {(shopMeta.postalCode || activeAddress?.postalCode) ? `(${shopMeta.postalCode || activeAddress?.postalCode})` : ""}
             </h2>
           </div>
           <button className="btn-secondary" onClick={loadShops}>
             Refresh
           </button>
         </div>
-        {shops.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Add or switch an address to see nearby partner stores.</p>
+        {loadError ? (
+          <p className="mt-4 text-sm text-rose-600">{loadError}</p>
+        ) : null}
+        {loading ? (
+          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Loading partner shops...</p>
+        ) : shops.length === 0 ? (
+          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">No shops available yet. Try refresh once after the backend restarts.</p>
         ) : (
           <>
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
