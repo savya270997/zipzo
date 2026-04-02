@@ -186,8 +186,8 @@ const ShopsPage = () => {
             <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredShops.slice(0, visibleCount).map((shop, index) => (
                 <div key={shop.id} className="shop-card" style={{ animationDelay: `${index * 55}ms` }}>
-                  <div className="flex items-start gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 shadow-inner shadow-white/80 dark:bg-brand-900/40">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
                       <Store className="h-5 w-5" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -206,7 +206,7 @@ const ShopsPage = () => {
                   </div>
 
                   <div className="shop-card-body">
-                    <div className="grid min-h-[78px] grid-cols-2 gap-2">
+                    <div className="mt-4 flex flex-wrap gap-2">
                       <span className="shop-metric bg-amber-50 text-amber-700">
                         <Star className="h-3.5 w-3.5 fill-current" />
                         {shop.rating}
@@ -216,7 +216,7 @@ const ShopsPage = () => {
                       {shop.productCount ? <span className="shop-metric">{shop.productCount} products</span> : null}
                     </div>
 
-                    <div className="mt-4 min-h-[84px]">
+                    <div className="mt-5 min-h-[88px]">
                       <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
                       <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                         {(shop.tags || []).slice(0, 3).join(" • ")}
@@ -228,9 +228,6 @@ const ShopsPage = () => {
                     <Link to={`/shops/${shop.id}`} className="shop-cta">
                       Shop now
                     </Link>
-                    <p className="mt-2 text-center text-xs font-medium text-slate-400">
-                      Explore seller details and compare prices
-                    </p>
                   </div>
                 </div>
               ))}
