@@ -38,12 +38,11 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/orders" className={navLinkClass}>
             Orders
           </NavLink>
-          <NavLink to="/rewards" className={navLinkClass}>
-            Rewards
-          </NavLink>
-          <NavLink to="/subscriptions" className={navLinkClass}>
-            Subscriptions
-          </NavLink>
+          {isAuthenticated ? (
+            <NavLink to="/profile" className={navLinkClass}>
+              Profile
+            </NavLink>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">

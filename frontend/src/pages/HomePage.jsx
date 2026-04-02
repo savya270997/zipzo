@@ -38,7 +38,7 @@ const featureCards = [
   { icon: TimerReset, title: "Slot Delivery", copy: "Instant now, or reserve the delivery hour you want." }
 ];
 
-const HomePage = ({ onAddToCart, recommendations = [] }) => {
+const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints: 0, nextRewardAt: 100 } }) => {
   const { isAuthenticated } = useAuth();
   const [featured, setFeatured] = useState([]);
   const [catalog, setCatalog] = useState([]);
@@ -242,8 +242,8 @@ const HomePage = ({ onAddToCart, recommendations = [] }) => {
                 <p className="text-sm text-white/75">Major categories</p>
               </div>
               <div className="rounded-3xl bg-white/10 p-4">
-                <p className="text-2xl font-bold">10 min</p>
-                <p className="text-sm text-white/75">Quick delivery option</p>
+                <p className="text-2xl font-bold">{rewards.loyaltyPoints} pts</p>
+                <p className="text-sm text-white/75">Rewards wallet</p>
               </div>
             </div>
           </div>
