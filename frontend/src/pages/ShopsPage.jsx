@@ -225,7 +225,7 @@ const ShopsPage = () => {
                   </div>
 
                   <div className="shop-card-footer mt-auto">
-                    <Link to={`/shops/${shop.id}`} className="shop-cta">
+                    <Link to={`/shops/${shop.id}`} className="btn-primary w-full">
                       Shop now
                     </Link>
                   </div>

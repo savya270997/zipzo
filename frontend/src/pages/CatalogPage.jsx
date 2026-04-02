@@ -38,6 +38,15 @@ const CatalogPage = ({ onAddToCart }) => {
   return (
     <div className="shell space-y-8 py-10">
       <div className="card p-6">
+        <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="section-kicker">Marketplace catalog</p>
+            <h1 className="section-title">Browse products with cleaner filters</h1>
+          </div>
+          <div className="rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700">
+            {products.length} products
+          </div>
+        </div>
         <div className="flex flex-col gap-4 lg:flex-row">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -103,11 +112,15 @@ const CatalogPage = ({ onAddToCart }) => {
         {voiceError ? <p className="mt-3 text-sm text-rose-500">{voiceError}</p> : null}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} onAdd={onAddToCart} />
-        ))}
-      </div>
+      {products.length === 0 ? (
+        <div className="card p-10 text-center text-slate-500">No products match these filters yet.</div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {products.map((product, index) => (
+            <ProductCard key={product._id} product={product} onAdd={onAddToCart} style={{ animationDelay: `${index * 35}ms` }} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
