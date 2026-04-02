@@ -55,11 +55,12 @@
 
   .shop-card {
     @apply relative flex h-full flex-col overflow-hidden rounded-[30px] border border-brand-100/80 bg-white p-5 shadow-[0_14px_30px_rgba(122,61,18,0.07)] ring-1 ring-white/80 backdrop-blur;
+    animation: shop-card-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .shop-card::before {
     content: "";
-    @apply pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-300 via-brand-500 to-amber-300 opacity-0 transition-opacity duration-200;
+    @apply pointer-events-none absolute left-5 right-5 top-4 h-1.5 rounded-full bg-gradient-to-r from-brand-300 via-brand-500 to-amber-300 opacity-0 transition-opacity duration-300;
   }
 
   .shop-card:hover::before {
@@ -67,7 +68,7 @@
   }
 
   .shop-metric {
-    @apply inline-flex items-center gap-1 rounded-full border border-white/90 bg-white px-2.5 py-1 text-xs font-medium text-slate-600 shadow-sm;
+    @apply inline-flex min-h-[34px] items-center justify-center gap-1 rounded-full border border-white/90 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm;
   }
 
   .shop-cta {
@@ -79,11 +80,11 @@
   }
 
   .shop-card-body {
-    @apply mt-4 rounded-[24px] border border-brand-100/70 bg-gradient-to-br from-brand-50/70 to-white px-4 py-4;
+    @apply mt-5 rounded-[24px] border border-brand-100/70 bg-gradient-to-br from-brand-50/70 to-white px-4 py-4;
   }
 
   .shop-card-footer {
-    @apply mt-5 border-t border-brand-100/80 pt-4;
+    @apply mt-5 border-t border-brand-100/70 pt-4;
   }
 
   .input {
@@ -115,6 +116,17 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes shop-card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 
