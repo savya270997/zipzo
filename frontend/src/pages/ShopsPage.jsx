@@ -183,34 +183,49 @@ const ShopsPage = () => {
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">No shops available yet. Try refresh once after the backend restarts.</p>
         ) : (
           <>
-            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredShops.slice(0, visibleCount).map((shop) => (
-                <div key={shop.id} className="card h-full p-5">
+                <div key={shop.id} className="shop-card">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 shadow-inner shadow-white/80 dark:bg-brand-900/40">
                       <Store className="h-5 w-5" />
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold">{shop.name}</p>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">{shop.city}</p>
-                      <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-amber-700 dark:bg-amber-500/20 dark:text-amber-100">
-                          <Star className="h-3.5 w-3.5 fill-current" />
-                          {shop.rating}
-                        </span>
-                        <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.etaMinutes} min ETA</span>
-                        {shop.since ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">Since {shop.since}</span> : null}
-                        {shop.productCount ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.productCount} products</span> : null}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-lg font-semibold leading-tight text-slate-800 dark:text-slate-100">{shop.name}</p>
+                          <p className="mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">{shop.city}</p>
+                        </div>
+                        {shop.id === "shop-demo-zipzo" ? (
+                          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+                            Featured
+                          </span>
+                        ) : null}
                       </div>
-                      <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
-                        {shop.tags?.slice(0, 3).join(" • ")}
-                      </p>
                     </div>
                   </div>
-                  <Link to={`/shops/${shop.id}`} className="btn-primary mt-4 w-full">
-                    Shop now
-                  </Link>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="shop-metric bg-amber-50 text-amber-700">
+                      <Star className="h-3.5 w-3.5 fill-current" />
+                      {shop.rating}
+                    </span>
+                    <span className="shop-metric">{shop.etaMinutes} min ETA</span>
+                    {shop.since ? <span className="shop-metric">Since {shop.since}</span> : null}
+                    {shop.productCount ? <span className="shop-metric">{shop.productCount} products</span> : null}
+                  </div>
+
+                  <div className="mt-4 flex min-h-[104px] flex-col">
+                    <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                      {(shop.tags || []).slice(0, 3).join(" • ")}
+                    </p>
+                    <div className="mt-auto pt-4">
+                      <Link to={`/shops/${shop.id}`} className="shop-cta">
+                        Shop now
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

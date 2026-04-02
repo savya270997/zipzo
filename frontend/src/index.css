@@ -53,6 +53,31 @@
     @apply rounded-[28px] border border-white/70 bg-white/90 shadow-lg shadow-brand-900/10 backdrop-blur dark:border-slate-800 dark:bg-slate-900/85;
   }
 
+  .shop-card {
+    @apply relative flex h-full flex-col overflow-hidden rounded-[30px] border border-brand-100/80 bg-white/96 p-5 shadow-[0_16px_38px_rgba(122,61,18,0.08)] ring-1 ring-white/70 backdrop-blur;
+  }
+
+  .shop-card::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-300 via-brand-500 to-amber-300 opacity-0 transition-opacity duration-200;
+  }
+
+  .shop-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .shop-metric {
+    @apply inline-flex items-center gap-1 rounded-full border border-white/80 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 shadow-sm;
+  }
+
+  .shop-cta {
+    @apply inline-flex w-full items-center justify-center rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(225,135,63,0.28)] transition;
+  }
+
+  .shop-cta:hover {
+    @apply bg-brand-600 shadow-[0_16px_30px_rgba(200,111,45,0.34)];
+  }
+
   .input {
     @apply w-full rounded-2xl border border-brand-100 bg-white px-4 py-3 text-sm outline-none ring-0 transition placeholder:text-slate-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100;
   }
@@ -95,5 +120,11 @@
   .card:hover {
     transform: translateY(-2px);
     box-shadow: 0 18px 38px rgba(var(--brand-700), 0.12);
+  }
+
+  .shop-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(var(--brand-300), 0.95);
+    box-shadow: 0 26px 52px rgba(122, 61, 18, 0.14);
   }
 }
