@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Moon, ShoppingCart, Sun, Truck, UserCircle2 } from "lucide-react";
+import { ChevronDown, LogOut, Moon, ShoppingCart, Sun, Truck, UserCircle2 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -13,6 +14,7 @@ const navLinkClass = ({ isActive }) =>
 const Navbar = ({ cartCount }) => {
   const { toggleTheme, theme } = useTheme();
   const { isAuthenticated, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -38,11 +40,6 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/orders" className={navLinkClass}>
             Orders
           </NavLink>
-          {isAuthenticated ? (
-            <NavLink to="/profile" className={navLinkClass}>
-              Profile
-            </NavLink>
-          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -54,16 +51,41 @@ const Navbar = ({ cartCount }) => {
             <span>{cartCount}</span>
           </Link>
           {isAuthenticated ? (
-            <button
-              className="btn-secondary gap-2 px-4 py-3"
-              onClick={() => {
-                logout();
-                navigate("/");
-              }}
-            >
-              <UserCircle2 className="h-4 w-4" />
-              Logout
-            </button>
+            <div className="relative">
+              <button
+                className="btn-secondary gap-2 px-4 py-3"
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                <UserCircle2 className="h-4 w-4" />
+                Account
+                <ChevronDown className={`h-4 w-4 transition ${menuOpen ? "rotate-180" : ""}`} />
+              </button>
+              {menuOpen ? (
+                <div className="absolute right-0 mt-2 w-44 rounded-2xl border border-slate-200 bg-white p-2 text-sm shadow-lg dark:border-slate-800 dark:bg-slate-900 z-50">
+                  <button
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 hover:bg-brand-50 dark:hover:bg-slate-800"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      navigate("/profile");
+                    }}
+                  >
+                    <UserCircle2 className="h-4 w-4" />
+                    Manage account
+                  </button>
+                  <button
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-rose-600 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-slate-800"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      logout();
+                      navigate("/");
+                    }}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </button>
+                </div>
+              ) : null}
+            </div>
           ) : (
             <Link to="/auth" className="btn-primary gap-2">
               <UserCircle2 className="h-4 w-4" />

@@ -143,7 +143,7 @@ const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints
     <div className="space-y-14 pb-16">
       {isAuthenticated ? (
         <section className="shell mt-6">
-          <div className="card flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="card relative z-20 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <div className="rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40">
                 <MapPin className="h-5 w-5" />
@@ -162,7 +162,7 @@ const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints
                   Switch address
                   <ArrowRight className="inline h-4 w-4 rotate-90 transition group-open:-rotate-90" />
                 </summary>
-                <div className="absolute right-0 z-20 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                <div className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900">
                   {addresses.length === 0 ? (
                     <p className="text-sm text-slate-500 dark:text-slate-400">No addresses yet</p>
                   ) : (
