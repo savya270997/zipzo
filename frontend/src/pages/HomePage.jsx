@@ -142,42 +142,6 @@ const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints
         </div>
       </section>
 
-      {isAuthenticated ? (
-        <section className="shell space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="section-kicker">Partnered shops</p>
-              <h2 className="section-title">Near you • {shopMeta.city || "Set address"} {shopMeta.postalCode ? `(${shopMeta.postalCode})` : ""}</h2>
-            </div>
-            <Link to="/checkout" className="btn-secondary gap-2">
-              Manage address
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          {shops.length === 0 ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400">Add an address to see nearby partner stores.</p>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {shops.map((shop) => (
-                <div key={shop.id} className="card flex items-center gap-4 p-5">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
-                    <Store className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold">{shop.name}</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      {shop.tags?.slice(0, 2).join(" • ")} • {shop.rating}★ • {shop.etaMinutes} min
-                    </p>
-                    <p className="text-xs text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
-                  </div>
-                  <button className="btn-primary whitespace-nowrap px-3 py-2 text-xs">View</button>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      ) : null}
-
       <section className="shell space-y-6">
         <div className="grid gap-4 rounded-[32px] bg-white/70 p-6 ring-1 ring-white/70 dark:bg-slate-900/70">
           <div className="flex items-center justify-between">
