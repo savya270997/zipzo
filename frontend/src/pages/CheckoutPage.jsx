@@ -22,6 +22,8 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [addressForm, setAddressForm] = useState(initialAddress);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("razorpay");
   const [scheduledSlot, setScheduledSlot] = useState(slots[0]);
   const navigate = useNavigate();
@@ -35,16 +37,27 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
       setAddresses(data);
       const defaultAddress = data.find((address) => address.isDefault) || data[0];
       setSelectedAddressId(defaultAddress?._id || "");
+      setShowAddressForm(data.length === 0);
     });
   }, []);
 
   const saveAddress = async (event) => {
     event.preventDefault();
-    const { data } = await api.post("/addresses", addressForm);
-    setAddresses(data);
-    const latest = data.at(-1);
-    setSelectedAddressId(latest._id);
+    let response;
+    if (editingAddressId) {
+      const { data } = await api.patch(`/addresses/${editingAddressId}`, addressForm);
+      response = data;
+    } else {
+      const { data } = await api.post("/addresses", addressForm);
+      response = data;
+    }
+
+    const latest = response.find((addr) => addr._id === (editingAddressId || response.at(-1)?._id));
+    setAddresses(response);
+    setSelectedAddressId(latest?._id || "");
     setAddressForm(initialAddress);
+    setEditingAddressId(null);
+    setShowAddressForm(false);
     refreshUser();
   };
 
@@ -75,54 +88,101 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
 
         <div className="card p-6">
           <h2 className="font-display text-2xl font-semibold">Saved addresses</h2>
-          <div className="mt-5 space-y-3">
-            {addresses.map((address) => (
-              <label key={address._id} className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
-                <input
-                  type="radio"
-                  checked={selectedAddressId === address._id}
-                  onChange={() => setSelectedAddressId(address._id)}
-                />
-                <div>
-                  <p className="font-semibold">
-                    {address.label} {address.isDefault ? "• Default" : ""}
-                  </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {address.line1}, {address.city}, {address.state} - {address.postalCode}
-                  </p>
+          {addresses.length === 0 ? (
+            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Add your delivery address to proceed.</p>
+          ) : (
+            <div className="mt-5 space-y-3">
+              {addresses.map((address) => (
+                <div
+                  key={address._id}
+                  className="flex items-start justify-between rounded-2xl border border-slate-200 p-4 dark:border-slate-700"
+                >
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <input
+                      type="radio"
+                      checked={selectedAddressId === address._id}
+                      onChange={() => setSelectedAddressId(address._id)}
+                    />
+                    <div>
+                      <p className="font-semibold">
+                        {address.label} {address.isDefault ? "• Default" : ""}
+                      </p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        {address.line1}, {address.city}, {address.state} - {address.postalCode}
+                      </p>
+                      <p className="text-xs text-slate-400 dark:text-slate-500">
+                        {address.fullName} · {address.phone}
+                      </p>
+                    </div>
+                  </label>
+                  <button
+                    className="text-sm font-semibold text-brand-600 hover:underline"
+                    onClick={() => {
+                      setAddressForm({ ...address });
+                      setEditingAddressId(address._id);
+                      setShowAddressForm(true);
+                    }}
+                  >
+                    Edit
+                  </button>
                 </div>
-              </label>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+          {addresses.length > 0 ? (
+            <button className="btn-secondary mt-4" onClick={() => {
+              setAddressForm(initialAddress);
+              setEditingAddressId(null);
+              setShowAddressForm(true);
+            }}>
+              Add new address
+            </button>
+          ) : null}
         </div>
 
-        <div className="card p-6">
-          <h2 className="font-display text-2xl font-semibold">Add new address</h2>
-          <form className="mt-5 grid gap-4 md:grid-cols-2" onSubmit={saveAddress}>
-            {Object.entries(addressForm).map(([key, value]) =>
-              key === "isDefault" ? (
-                <label key={key} className="flex items-center gap-2 text-sm md:col-span-2">
+        {showAddressForm ? (
+          <div className="card p-6">
+            <div className="flex items-center justify-between">
+              <h2 className="font-display text-2xl font-semibold">{editingAddressId ? "Edit address" : "Add new address"}</h2>
+              {addresses.length > 0 ? (
+                <button
+                  className="text-sm font-semibold text-slate-500 hover:underline"
+                  onClick={() => {
+                    setShowAddressForm(false);
+                    setEditingAddressId(null);
+                    setAddressForm(initialAddress);
+                  }}
+                >
+                  Cancel
+                </button>
+              ) : null}
+            </div>
+            <form className="mt-5 grid gap-4 md:grid-cols-2" onSubmit={saveAddress}>
+              {Object.entries(addressForm).map(([key, value]) =>
+                key === "isDefault" ? (
+                  <label key={key} className="flex items-center gap-2 text-sm md:col-span-2">
+                    <input
+                      type="checkbox"
+                      checked={value}
+                      onChange={(event) => setAddressForm({ ...addressForm, isDefault: event.target.checked })}
+                    />
+                    Set as default
+                  </label>
+                ) : (
                   <input
-                    type="checkbox"
-                    checked={value}
-                    onChange={(event) => setAddressForm({ ...addressForm, isDefault: event.target.checked })}
+                    key={key}
+                    className={`input ${key === "line1" || key === "line2" ? "md:col-span-2" : ""}`}
+                    placeholder={key.replace(/([A-Z])/g, " $1")}
+                    value={value}
+                    onChange={(event) => setAddressForm({ ...addressForm, [key]: event.target.value })}
+                    required={["label", "fullName", "phone", "line1", "city", "state", "postalCode"].includes(key)}
                   />
-                  Set as default
-                </label>
-              ) : (
-                <input
-                  key={key}
-                  className={`input ${key === "line1" || key === "line2" ? "md:col-span-2" : ""}`}
-                  placeholder={key.replace(/([A-Z])/g, " $1")}
-                  value={value}
-                  onChange={(event) => setAddressForm({ ...addressForm, [key]: event.target.value })}
-                  required={["label", "fullName", "phone", "line1", "city", "state", "postalCode"].includes(key)}
-                />
-              )
-            )}
-            <button className="btn-primary md:col-span-2">Save address</button>
-          </form>
-        </div>
+                )
+              )}
+              <button className="btn-primary md:col-span-2">{editingAddressId ? "Update address" : "Save address"}</button>
+            </form>
+          </div>
+        ) : null}
       </div>
 
       <aside className="space-y-6">
