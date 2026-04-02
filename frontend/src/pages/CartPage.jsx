@@ -15,7 +15,7 @@ const CartPage = ({ cart, updateQuantity, removeItem }) => {
           {cart.items.length === 0 ? (
             <div className="card p-8">
               <h1 className="font-display text-3xl font-bold">Your cart is empty</h1>
-              <p className="mt-2 text-slate-500 dark:text-slate-400">Add essentials from the catalog to begin checkout.</p>
+              <p className="mt-2 text-slate-500 dark:text-slate-400">Add products from any category to begin checkout.</p>
               <Link to="/catalog" className="btn-primary mt-6">
                 Browse products
               </Link>

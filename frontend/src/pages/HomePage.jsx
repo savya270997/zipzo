@@ -16,21 +16,21 @@ import ProductCard from "../components/ProductCard";
 import ImageInitials from "../components/ImageInitials";
 
 const banners = [
-  { title: "Zipzo Saver Fest", copy: "Combo deals on breakfast & dairy. Limited till midnight.", tone: "from-brand-500 via-amber-400 to-rose-300" },
-  { title: "Green Basket Hours", copy: "Fruits & veggies at farm-fresh pricing every evening.", tone: "from-emerald-400 via-emerald-500 to-brand-400" },
-  { title: "Slot & Save", copy: "Pick tomorrow slots and save extra on delivery.", tone: "from-sky-400 via-brand-400 to-amber-300" }
+  { title: "Zipzo Saver Fest", copy: "Fresh drops on fashion, gadgets, beauty, and daily essentials.", tone: "from-brand-500 via-amber-400 to-rose-300" },
+  { title: "Citywide Marketplace", copy: "Shop groceries, electronics, self-care, books, and more in one cart.", tone: "from-emerald-400 via-emerald-500 to-brand-400" },
+  { title: "Slot & Save", copy: "Pick tomorrow slots and save extra across groceries, tech, and lifestyle picks.", tone: "from-sky-400 via-brand-400 to-amber-300" }
 ];
 
 const sideBanners = [
   { title: "Wallet Boost", copy: "Earn 2x points on repeat orders today.", tone: "from-purple-400 via-brand-400 to-amber-300" },
   { title: "New Sellers", copy: "Support local sellers with curated picks.", tone: "from-emerald-500 via-teal-400 to-brand-300" },
-  { title: "Voice to Cart", copy: "Speak milk, eggs, bread to auto-fill your basket.", tone: "from-brand-500 via-rose-400 to-orange-300" }
+  { title: "Voice to Cart", copy: "Speak chargers, tees, snacks, or skincare to auto-fill your cart.", tone: "from-brand-500 via-rose-400 to-orange-300" }
 ];
 
 const featureCards = [
   { icon: Sparkles, title: "AI Smart Baskets", copy: "Recommendations that become sharper after every order." },
-  { icon: Repeat2, title: "Repeat Orders", copy: "Milk, bread, eggs, and daily staples on autopilot." },
-  { icon: Gift, title: "Rewards Wallet", copy: "Stack loyalty points with every grocery refill." },
+  { icon: Repeat2, title: "Repeat Orders", copy: "Refill staples, skincare, pet care, and home basics on autopilot." },
+  { icon: Gift, title: "Rewards Wallet", copy: "Stack loyalty points with every marketplace checkout." },
   { icon: TimerReset, title: "Slot Delivery", copy: "Instant now, or reserve the delivery hour you want." }
 ];
 

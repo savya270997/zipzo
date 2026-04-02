@@ -300,6 +300,126 @@ const categoryConfigs = [
       ["Kaju Katli Pack", "Rich cashew sweet for celebrations."],
       ["Besan Ladoo Box", "Traditional besan ladoos with ghee aroma."]
     ]
+  },
+  {
+    category: "Electronics",
+    brand: "VoltEdge",
+    baseWeight: "1 unit",
+    priceStart: 699,
+    tags: ["tech", "gadgets"],
+    imageQuery: "electronics,gadgets",
+    items: [
+      ["Wireless Earbuds", "Compact earbuds with punchy sound and all-day battery."],
+      ["Fast Charger 33W", "Quick charging adapter for phones and tablets."],
+      ["Smartwatch Active", "Fitness-first smartwatch with call and sleep tracking."],
+      ["Bluetooth Speaker Mini", "Portable speaker with crisp sound and deep bass."],
+      ["Power Bank 10000mAh", "Pocket-friendly backup power for travel and commute."]
+    ]
+  },
+  {
+    category: "Fashion",
+    brand: "Urban Thread",
+    baseWeight: "1 piece",
+    priceStart: 499,
+    tags: ["style", "clothing"],
+    imageQuery: "fashion,clothes",
+    items: [
+      ["Oversized Cotton Tee", "Relaxed fit tee for everyday casual styling."],
+      ["Slim Fit Jeans", "Stretch denim jeans with modern tapered fit."],
+      ["Classic Hoodie", "Soft brushed hoodie for cool evenings and travel."],
+      ["Printed Summer Dress", "Easy day dress with breathable fabric and light drape."],
+      ["Polo Shirt", "Clean smart-casual polo for work or weekends."]
+    ]
+  },
+  {
+    category: "Footwear",
+    brand: "StrideLab",
+    baseWeight: "1 pair",
+    priceStart: 899,
+    tags: ["shoes", "lifestyle"],
+    imageQuery: "footwear,shoes",
+    items: [
+      ["Running Sneakers", "Lightweight sneakers designed for daily runs and walks."],
+      ["Slides Comfort", "Cushioned slides for home, gym, and quick errands."],
+      ["Canvas Casual Shoes", "Everyday lace-up shoes with minimal clean profile."],
+      ["Women Flat Sandals", "Comfort sandals with flexible sole and easy straps."],
+      ["Training Shoes", "Stable shoes built for gym and cross-training sessions."]
+    ]
+  },
+  {
+    category: "Home Decor",
+    brand: "Casa Bloom",
+    baseWeight: "1 item",
+    priceStart: 349,
+    tags: ["home", "decor"],
+    imageQuery: "home,decor",
+    items: [
+      ["Scented Candle Jar", "Warm fragrance candle for bedrooms and living rooms."],
+      ["Cushion Cover Set", "Soft decorative covers to refresh your sofa instantly."],
+      ["Wall Art Frame", "Modern framed print for entryways and study corners."],
+      ["Table Lamp Glow", "Ambient lamp for bedside reading and soft mood lighting."],
+      ["Ceramic Vase", "Minimal vase for dried stems and floral styling."]
+    ]
+  },
+  {
+    category: "Mobile Accessories",
+    brand: "CaseCraft",
+    baseWeight: "1 unit",
+    priceStart: 249,
+    tags: ["mobile", "accessories"],
+    imageQuery: "mobile,accessories",
+    items: [
+      ["Silicone Phone Case", "Shock-absorbing case with slim matte finish."],
+      ["Tempered Glass Pack", "Scratch-resistant screen protection with easy install."],
+      ["Car Phone Mount", "Secure dashboard mount for maps and hands-free calls."],
+      ["Braided USB-C Cable", "Durable fast-charge cable with reinforced connectors."],
+      ["MagSafe Wallet", "Snap-on card wallet with strong magnetic hold."]
+    ]
+  },
+  {
+    category: "Beauty",
+    brand: "Glow Theory",
+    baseWeight: "120 ml",
+    priceStart: 299,
+    tags: ["beauty", "skincare"],
+    imageQuery: "beauty,skincare",
+    items: [
+      ["Vitamin C Serum", "Brightening serum for daily glow and even tone."],
+      ["Hydrating Face Mist", "Cooling mist for instant freshness during the day."],
+      ["Matte Lip Color", "Long-wear lip shade with smooth comfortable finish."],
+      ["Sunscreen SPF 50", "Lightweight sun protection for everyday outdoor use."],
+      ["Night Repair Cream", "Rich overnight cream for deep hydration and softness."]
+    ]
+  },
+  {
+    category: "Books & Stationery",
+    brand: "PaperTrail",
+    baseWeight: "1 piece",
+    priceStart: 149,
+    tags: ["books", "stationery"],
+    imageQuery: "books,stationery",
+    items: [
+      ["Hardbound Notebook", "Premium ruled notebook for journaling and planning."],
+      ["Gel Pen Set", "Smooth-writing pen pack for study and office work."],
+      ["Desk Planner", "Weekly desk planner to organize goals and tasks."],
+      ["Sticky Notes Combo", "Colorful notes for reminders, study, and workboards."],
+      ["Reading Lamp Clip", "Clip light for night reading and focused study."]
+    ]
+  },
+  {
+    category: "Sports & Fitness",
+    brand: "ActiveCore",
+    baseWeight: "1 unit",
+    priceStart: 399,
+    tags: ["fitness", "sports"],
+    imageQuery: "fitness,sports",
+    items: [
+      ["Yoga Mat Pro", "Grip-friendly exercise mat for yoga and floor workouts."],
+      ["Resistance Band Set", "Multi-strength bands for home strength training."],
+      ["Protein Shaker", "Leak-resistant shaker bottle with mixing ball."],
+      ["Skipping Rope", "Adjustable rope for quick cardio sessions anywhere."],
+      ["Gym Gloves", "Breathable gloves with palm grip and wrist support."]
+    ]
   }
 ];
 

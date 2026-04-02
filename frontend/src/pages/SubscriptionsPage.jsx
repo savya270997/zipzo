@@ -5,7 +5,7 @@ const SubscriptionsPage = ({ subscriptions }) => (
     <div className="card p-6">
       <p className="text-sm uppercase tracking-[0.3em] text-brand-600">Recurring orders</p>
       <h1 className="mt-3 font-display text-3xl font-bold">Subscriptions</h1>
-      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Automate daily or weekly essentials like milk, bread, and eggs.</p>
+      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Automate recurring orders for staples, self-care, pet care, and everyday essentials.</p>
     </div>
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       {subscriptions.map((subscription) => (
