@@ -29,7 +29,14 @@ const ProductCard = ({ product, onAdd }) => (
         </span>
       </div>
       <div className="flex items-center justify-between text-sm">
-        <p className="text-slate-500 dark:text-slate-400">{product.brand}</p>
+        <div>
+          <p className="text-slate-500 dark:text-slate-400">{product.brand}</p>
+          {product.shop ? (
+            <Link to={`/shops/${product.shop.id}`} className="text-xs font-medium text-brand-600 hover:underline dark:text-brand-300">
+              Sold by {product.shop.name}
+            </Link>
+          ) : null}
+        </div>
         <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
           <Star className="h-3.5 w-3.5 fill-current" />
           {product.rating}

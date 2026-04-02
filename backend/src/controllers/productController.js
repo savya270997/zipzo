@@ -2,6 +2,7 @@ import { Product } from "../models/Product.js";
 import { catalogProducts } from "../utils/catalogData.js";
 import { firebaseStore } from "../utils/firestoreStore.js";
 import { isFirebaseMode } from "../config/firebase.js";
+import { decorateProductWithMarketplace, decorateProductsWithMarketplace } from "../utils/marketplaceData.js";
 
 const isDemoMode = () => process.env.DEMO_MODE === "true";
 
@@ -34,7 +35,7 @@ const filterCatalog = (products, query) => {
 export const getProducts = async (req, res) => {
   if (isFirebaseMode()) {
     const allProducts = await firebaseStore.getProducts();
-    const products = filterCatalog(allProducts, req.query);
+    const products = decorateProductsWithMarketplace(filterCatalog(allProducts, req.query));
     const categories = [...new Set(allProducts.map((product) => product.category))];
     const brands = [...new Set(allProducts.map((product) => product.brand))];
 
@@ -42,7 +43,7 @@ export const getProducts = async (req, res) => {
   }
 
   if (isDemoMode()) {
-    const products = filterCatalog(catalogProducts, req.query);
+    const products = decorateProductsWithMarketplace(filterCatalog(catalogProducts, req.query));
     const categories = [...new Set(catalogProducts.map((product) => product.category))];
     const brands = [...new Set(catalogProducts.map((product) => product.brand))];
 
@@ -72,7 +73,7 @@ export const getProducts = async (req, res) => {
   const categories = await Product.distinct("category");
   const brands = await Product.distinct("brand");
 
-  res.json({ products, filters: { categories, brands } });
+  res.json({ products: decorateProductsWithMarketplace(products), filters: { categories, brands } });
 };
 
 export const getProductById = async (req, res) => {
@@ -83,7 +84,7 @@ export const getProductById = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    return res.json(product);
+    return res.json(decorateProductWithMarketplace(product));
   }
 
   if (isDemoMode()) {
@@ -93,7 +94,7 @@ export const getProductById = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    return res.json(product);
+    return res.json(decorateProductWithMarketplace(product));
   }
 
   const product = await Product.findById(req.params.id);
@@ -102,19 +103,19 @@ export const getProductById = async (req, res) => {
     return res.status(404).json({ message: "Product not found" });
   }
 
-  res.json(product);
+  res.json(decorateProductWithMarketplace(product.toObject ? product.toObject() : product));
 };
 
 export const getFeaturedProducts = async (_req, res) => {
   if (isFirebaseMode()) {
     const products = await firebaseStore.getProducts();
-    return res.json(products.filter((product) => product.isFeatured).slice(0, 12));
+    return res.json(decorateProductsWithMarketplace(products.filter((product) => product.isFeatured).slice(0, 12)));
   }
 
   if (isDemoMode()) {
-    return res.json(catalogProducts.filter((product) => product.isFeatured).slice(0, 12));
+    return res.json(decorateProductsWithMarketplace(catalogProducts.filter((product) => product.isFeatured).slice(0, 12)));
   }
 
   const products = await Product.find({ isFeatured: true }).limit(8);
-  res.json(products);
+  res.json(decorateProductsWithMarketplace(products.map((product) => (product.toObject ? product.toObject() : product))));
 };

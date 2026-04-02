@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CheckCircle2, Clock3, Repeat2 } from "lucide-react";
 import api from "../api/client";
 import { formatCurrency } from "../utils/currency";
@@ -36,6 +36,11 @@ const ProductPage = ({ onAddToCart, onSubscribe }) => {
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             <span className="rounded-full bg-brand-50 px-4 py-2 text-brand-700 dark:bg-brand-900/40 dark:text-brand-100">{product.weight}</span>
             <span className="rounded-full bg-slate-100 px-4 py-2 dark:bg-slate-800">{product.brand}</span>
+            {product.shop ? (
+              <Link to={`/shops/${product.shop.id}`} className="rounded-full bg-amber-50 px-4 py-2 font-medium text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
+                Sold by {product.shop.name}
+              </Link>
+            ) : null}
             <span className="rounded-full bg-emerald-100 px-4 py-2 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
               {product.stock > 0 ? "In stock" : "Out of stock"}
             </span>
@@ -76,9 +81,12 @@ const ProductPage = ({ onAddToCart, onSubscribe }) => {
               <div>
                 <p className="font-semibold">Price comparison</p>
                 <div className="mt-2 space-y-2 text-sm text-slate-500 dark:text-slate-400">
-                  {product.priceComparisons.map((comparison) => (
-                    <div key={comparison.store} className="flex justify-between rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-800/70">
-                      <span>{comparison.store}</span>
+                  {(product.sellerComparisons || product.priceComparisons || []).map((comparison) => (
+                    <div
+                      key={comparison.shopId || comparison.store}
+                      className="flex justify-between rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-800/70"
+                    >
+                      <span>{comparison.shopName || comparison.store}</span>
                       <span>
                         {formatCurrency(comparison.price)} • {comparison.deliveryEta}
                       </span>

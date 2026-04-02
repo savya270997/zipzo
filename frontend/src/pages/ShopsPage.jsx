@@ -178,6 +178,7 @@ const ShopsPage = () => {
                         </span>
                         <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.etaMinutes} min ETA</span>
                         {shop.since ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">Since {shop.since}</span> : null}
+                        {shop.productCount ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.productCount} products</span> : null}
                       </div>
                       <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -185,7 +186,9 @@ const ShopsPage = () => {
                       </p>
                     </div>
                   </div>
-                  <button className="btn-primary mt-4 w-full">Shop now</button>
+                  <Link to={`/shops/${shop.id}`} className="btn-primary mt-4 w-full">
+                    Shop now
+                  </Link>
                 </div>
               ))}
             </div>

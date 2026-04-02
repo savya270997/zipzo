@@ -16,6 +16,7 @@ import SubscriptionsPage from "./pages/SubscriptionsPage";
 import RewardsPage from "./pages/RewardsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShopsPage from "./pages/ShopsPage";
+import ShopDetailPage from "./pages/ShopDetailPage";
 import { useAuth } from "./context/AuthContext";
 
 const emptyCart = { items: [] };
@@ -134,6 +135,14 @@ const App = () => {
           element={
             <PrivateRoute>
               <ShopsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/shops/:shopId"
+          element={
+            <PrivateRoute>
+              <ShopDetailPage onAddToCart={handleAddToCart} />
             </PrivateRoute>
           }
         />
