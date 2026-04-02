@@ -9,6 +9,7 @@ import addressRoutes from "./routes/addressRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import subscriptionRoutes from "./routes/subscriptionRoutes.js";
 import recommendationRoutes from "./routes/recommendationRoutes.js";
+import shopRoutes from "./routes/shopRoutes.js";
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use("/api/addresses", addressRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/recommendations", recommendationRoutes);
+app.use("/api/shops", shopRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);
