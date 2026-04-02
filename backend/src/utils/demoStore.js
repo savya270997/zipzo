@@ -18,6 +18,7 @@ const ensureDemoUser = async () => {
     name: "Test User",
     email: "test@g.com",
     password,
+    role: "customer",
     loyaltyPoints: 120,
     addresses: [],
     purchasePreferences: [],
@@ -38,14 +39,15 @@ export const demoStore = {
   async findUserById(id) {
     return demoUsers.find((user) => user._id === id) || null;
   },
-  async createUser({ name, email, password }) {
+  async createUser({ name, email, password, role = "customer", addresses = [] }) {
     const user = {
       _id: `demo-user-${demoUsers.length + 1}`,
       name,
       email,
       password,
+      role,
       loyaltyPoints: 0,
-      addresses: [],
+      addresses,
       purchasePreferences: [],
       createdAt: new Date(),
       updatedAt: new Date()

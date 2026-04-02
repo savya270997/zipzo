@@ -12,12 +12,49 @@ const sanitizeUser = (user) => ({
   id: user._id,
   name: user.name,
   email: user.email,
+  role: user.role,
   loyaltyPoints: user.loyaltyPoints,
   addresses: user.addresses
 });
 
+const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
+const validatePassword = (password) =>
+  /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && password.length >= 8;
+
 export const signup = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword, role = "customer", address } = req.body;
+
+  if (!name?.trim()) {
+    return res.status(400).json({ message: "Name is required" });
+  }
+
+  if (!validateEmail(email)) {
+    return res.status(400).json({ message: "Please use a valid email address" });
+  }
+
+  if (!validatePassword(password)) {
+    return res.status(400).json({ message: "Password must be 8+ chars with upper, lower, and a number" });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match" });
+  }
+
+  if (!address?.line1 || !address?.city || !address?.state || !address?.postalCode || !address?.fullName || !address?.phone) {
+    return res.status(400).json({ message: "Address with full name, phone, line1, city, state, and postal code is required" });
+  }
+
+  if (!["customer", "seller"].includes(role)) {
+    return res.status(400).json({ message: "Invalid account type" });
+  }
+
+  const addressPayload = {
+    ...address,
+    label: address.label || "Home",
+    line2: address.line2 || "",
+    landmark: address.landmark || "",
+    isDefault: true
+  };
 
   if (isDemoMode()) {
     const existingDemoUser = await demoStore.findUserByEmail(email);
@@ -26,7 +63,7 @@ export const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await demoStore.createUser({ name, email, password: hashedPassword });
+    const user = await demoStore.createUser({ name, email, password: hashedPassword, role, addresses: [addressPayload] });
 
     return res.status(201).json({
       token: generateToken(user._id),
@@ -41,7 +78,7 @@ export const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await firebaseStore.createUser({ name, email, password: hashedPassword });
+    const user = await firebaseStore.createUser({ name, email, password: hashedPassword, role, addresses: [addressPayload] });
 
     return res.status(201).json({
       token: generateToken(user._id),
@@ -55,7 +92,7 @@ export const signup = async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({ name, email, password: hashedPassword });
+  const user = await User.create({ name, email, password: hashedPassword, role, addresses: [addressPayload] });
   await Cart.create({ user: user._id, items: [] });
 
   res.status(201).json({

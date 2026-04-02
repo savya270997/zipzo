@@ -24,14 +24,15 @@ export const firebaseStore = {
     return snapshot.exists ? withId(snapshot) : null;
   },
 
-  async createUser({ name, email, password }) {
+  async createUser({ name, email, password, role = "customer", addresses = [] }) {
     const ref = collection("users").doc();
     const user = {
       name,
       email,
       password,
+      role,
       loyaltyPoints: 0,
-      addresses: [],
+      addresses,
       purchasePreferences: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
