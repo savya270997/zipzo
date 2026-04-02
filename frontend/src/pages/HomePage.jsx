@@ -14,6 +14,19 @@ import { Link } from "react-router-dom";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
 import ImageInitials from "../components/ImageInitials";
+import ImageInitials from "../components/ImageInitials";
+
+const banners = [
+  { title: "Zipzo Saver Fest", copy: "Combo deals on breakfast & dairy. Limited till midnight.", tone: "from-brand-500 via-amber-400 to-rose-300" },
+  { title: "Green Basket Hours", copy: "Fruits & veggies at farm-fresh pricing every evening.", tone: "from-emerald-400 via-emerald-500 to-brand-400" },
+  { title: "Slot & Save", copy: "Pick tomorrow slots and save extra on delivery.", tone: "from-sky-400 via-brand-400 to-amber-300" }
+];
+
+const sideBanners = [
+  { title: "Wallet Boost", copy: "Earn 2x points on repeat orders today.", tone: "from-purple-400 via-brand-400 to-amber-300" },
+  { title: "New Sellers", copy: "Support local sellers with curated picks.", tone: "from-emerald-500 via-teal-400 to-brand-300" },
+  { title: "Voice to Cart", copy: "Speak milk, eggs, bread to auto-fill your basket.", tone: "from-brand-500 via-rose-400 to-orange-300" }
+];
 
 const featureCards = [
   { icon: Sparkles, title: "AI Smart Baskets", copy: "Recommendations that become sharper after every order." },
@@ -22,19 +35,30 @@ const featureCards = [
   { icon: TimerReset, title: "Slot Delivery", copy: "Instant now, or reserve the delivery hour you want." }
 ];
 
-const promoCards = [
-  { title: "Mega Saver Deals", copy: "Up to 45% off on pantry refills and breakfast packs.", tone: "from-brand-600 to-brand-500" },
-  { title: "Fresh Hour", copy: "Extra cuts on fruits, vegetables, and dairy till midnight.", tone: "from-brand-400 to-amber-300" },
-  { title: "Daily Essentials", copy: "One-tap restock for milk, bread, eggs, and atta.", tone: "from-slate-900 to-brand-700" }
-];
-
 const HomePage = ({ onAddToCart, recommendations = [] }) => {
   const [featured, setFeatured] = useState([]);
   const [catalog, setCatalog] = useState([]);
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const [sideBannerIndex, setSideBannerIndex] = useState(0);
 
   useEffect(() => {
     api.get("/products/featured").then(({ data }) => setFeatured(data));
     api.get("/products").then(({ data }) => setCatalog(data.products || []));
+  }, []);
+
+  useEffect(() => {
+    const mainTimer = setInterval(() => {
+      setBannerIndex((current) => (current + 1) % banners.length);
+    }, 2000);
+
+    const sideTimer = setInterval(() => {
+      setSideBannerIndex((current) => (current + 1) % sideBanners.length);
+    }, 2000);
+
+    return () => {
+      clearInterval(mainTimer);
+      clearInterval(sideTimer);
+    };
   }, []);
 
   const topDeals = useMemo(
@@ -62,72 +86,61 @@ const HomePage = ({ onAddToCart, recommendations = [] }) => {
     return Array.from(map.values()).slice(0, 20);
   }, [catalog]);
 
+  const heroProducts = useMemo(() => catalog.slice(0, 20), [catalog]);
+
   return (
     <div className="space-y-14 pb-16">
-      <section className="shell grid gap-6 py-8 lg:grid-cols-[1.35fr_0.95fr] lg:py-12">
-        <div className="card overflow-hidden bg-gradient-to-br from-brand-600 via-brand-500 to-brand-400 p-8 text-white shadow-glow sm:p-10">
+      <section className="shell space-y-6 py-8 lg:py-12">
+        <div className={`card overflow-hidden bg-gradient-to-br ${banners[bannerIndex].tone} p-8 text-white shadow-glow sm:p-10 transition`}>
           <p className="mb-4 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-100">
             Grocery marketplace
           </p>
-          <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">
-            Fast grocery delivery with richer offers, wider categories, and smarter reordering.
-          </h1>
-          <p className="mt-5 max-w-2xl text-base text-white/80 sm:text-lg">
-            Discover 100+ products, trending deals, AI picks, repeat orders, and delivery slots in one polished shopping dashboard.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/catalog" className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-600">
-              Start shopping
-            </Link>
-            <Link to="/auth" className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-semibold text-white">
-              Create account
-            </Link>
-          </div>
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-3xl bg-white/10 p-4">
-              <p className="text-2xl font-bold">100+</p>
-              <p className="text-sm text-white/75">Products live</p>
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="space-y-4">
+              <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">{banners[bannerIndex].title}</h1>
+              <p className="max-w-2xl text-base text-white/80 sm:text-lg">{banners[bannerIndex].copy}</p>
+              <div className="flex flex-wrap gap-3">
+                <Link to="/catalog" className="rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-brand-600 shadow">
+                  Start shopping
+                </Link>
+                <Link to="/auth" className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-semibold text-white">
+                  Create account
+                </Link>
+              </div>
             </div>
-            <div className="rounded-3xl bg-white/10 p-4">
-              <p className="text-2xl font-bold">20</p>
-              <p className="text-sm text-white/75">Major categories</p>
-            </div>
-            <div className="rounded-3xl bg-white/10 p-4">
-              <p className="text-2xl font-bold">10 min</p>
-              <p className="text-sm text-white/75">Quick delivery option</p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-3xl bg-white/10 p-4">
+                <p className="text-2xl font-bold">100+</p>
+                <p className="text-sm text-white/75">Products live</p>
+              </div>
+              <div className="rounded-3xl bg-white/10 p-4">
+                <p className="text-2xl font-bold">20</p>
+                <p className="text-sm text-white/75">Major categories</p>
+              </div>
+              <div className="rounded-3xl bg-white/10 p-4">
+                <p className="text-2xl font-bold">10 min</p>
+                <p className="text-sm text-white/75">Quick delivery option</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="grid gap-4">
-          <div className="card p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="section-kicker">Live offers</p>
-                <h2 className="mt-2 font-display text-2xl font-bold">Today’s high-conversion banner zone</h2>
-              </div>
-              <BadgePercent className="h-6 w-6 text-brand-500" />
-            </div>
-            <div className="mt-5 grid gap-3">
-              {promoCards.map((card) => (
-                <div key={card.title} className={`rounded-[24px] bg-gradient-to-r ${card.tone} p-5 text-white`}>
-                  <p className="font-display text-xl font-semibold">{card.title}</p>
-                  <p className="mt-2 max-w-xs text-sm text-white/80">{card.copy}</p>
+        <div className="grid gap-4 lg:grid-cols-2">
+          {[0, 1].map((slot) => {
+            const banner = sideBanners[(sideBannerIndex + slot) % sideBanners.length];
+            return (
+              <div key={slot} className={`card h-full bg-gradient-to-r ${banner.tone} p-6 text-white transition`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="section-kicker text-white/80">Offer</p>
+                    <h3 className="mt-1 font-display text-2xl font-semibold">{banner.title}</h3>
+                    <p className="mt-2 text-sm text-white/85">{banner.copy}</p>
+                  </div>
+                  <BadgePercent className="h-6 w-6 text-white" />
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {featureCards.slice(0, 2).map(({ icon: Icon, title, copy }) => (
-              <div key={title} className="card p-6">
-                <div className="mb-4 inline-flex rounded-2xl bg-brand-50 p-3 text-brand-600 dark:bg-brand-900/40">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-display text-xl font-semibold">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">{copy}</p>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
@@ -167,8 +180,8 @@ const HomePage = ({ onAddToCart, recommendations = [] }) => {
       <section className="shell space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="section-kicker">Trending aisle</p>
-            <h2 className="section-title">Ready for instant delivery</h2>
+            <p className="section-kicker">Hero products</p>
+            <h2 className="section-title">Top 20 picks for today</h2>
           </div>
           <Link to="/catalog" className="btn-secondary gap-2">
             Explore all
@@ -176,7 +189,7 @@ const HomePage = ({ onAddToCart, recommendations = [] }) => {
           </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {featured.map((product) => (
+          {heroProducts.map((product) => (
             <ProductCard key={product._id} product={product} onAdd={onAddToCart} />
           ))}
         </div>
