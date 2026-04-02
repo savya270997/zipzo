@@ -17,6 +17,18 @@ const hashValue = (value = "") =>
     .split("")
     .reduce((sum, char, index) => sum + char.charCodeAt(0) * (index + 1), 0);
 
+const isDemoStoreProduct = (product) => {
+  const productId = String(product?._id ?? "");
+  const productSeed = productId || product?.name || "";
+
+  if (DEMO_PRODUCT_IDS.has(productId)) {
+    return true;
+  }
+
+  // Keep the demo store stocked with a stable multi-category assortment.
+  return hashValue(productSeed) % 6 === 0 || (product?.isFeatured && hashValue(productSeed) % 3 === 0);
+};
+
 const buildComparisons = (product, primaryIndex) => {
   return Array.from({ length: 3 }, (_, offset) => {
     const shop = partnerShops[(primaryIndex + offset) % partnerShops.length];
@@ -35,7 +47,7 @@ const buildComparisons = (product, primaryIndex) => {
 export const decorateProductWithMarketplace = (product) => {
   const remainingShops = partnerShops.filter((shop) => shop.id !== DEMO_SHOP_ID);
   const productId = String(product?._id ?? "");
-  const isDemoProduct = DEMO_PRODUCT_IDS.has(productId);
+  const isDemoProduct = isDemoStoreProduct(product);
   const primaryIndex = isDemoProduct
     ? 0
     : (hashValue(productId || product.name) % remainingShops.length) + 1;
