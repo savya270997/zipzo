@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, LocateFixed, MapPin, Star, Store } from "lucide-react";
+import { ArrowRight, LocateFixed, MapPin, Search, Star, Store } from "lucide-react";
 import { Link } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from "../context/AuthContext";
@@ -14,6 +14,7 @@ const ShopsPage = () => {
   const [visibleCount, setVisibleCount] = useState(9);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -67,6 +68,15 @@ const ShopsPage = () => {
       </div>
     );
   }
+
+  const filteredShops = shops.filter((shop) => {
+    const query = search.trim().toLowerCase();
+    if (!query) return true;
+
+    return [shop.name, shop.city, shop.offer, ...(shop.tags || [])]
+      .filter(Boolean)
+      .some((value) => value.toLowerCase().includes(query));
+  });
 
   return (
     <div className="shell space-y-8 py-8">
@@ -152,17 +162,29 @@ const ShopsPage = () => {
             Refresh
           </button>
         </div>
+        <div className="relative mt-4">
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input
+            className="input pl-11"
+            placeholder="Search shops by name, city, tags, or offer"
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setVisibleCount(9);
+            }}
+          />
+        </div>
         {loadError ? (
           <p className="mt-4 text-sm text-rose-600">{loadError}</p>
         ) : null}
         {loading ? (
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Loading partner shops...</p>
-        ) : shops.length === 0 ? (
+        ) : filteredShops.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">No shops available yet. Try refresh once after the backend restarts.</p>
         ) : (
           <>
             <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {shops.slice(0, visibleCount).map((shop) => (
+              {filteredShops.slice(0, visibleCount).map((shop) => (
                 <div key={shop.id} className="card h-full p-5">
                   <div className="flex items-start gap-3">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
@@ -192,9 +214,9 @@ const ShopsPage = () => {
                 </div>
               ))}
             </div>
-            {visibleCount < shops.length ? (
+            {visibleCount < filteredShops.length ? (
               <div className="mt-4 flex justify-center">
-                <button className="btn-secondary" onClick={() => setVisibleCount((c) => Math.min(c + 9, shops.length))}>
+                <button className="btn-secondary" onClick={() => setVisibleCount((c) => Math.min(c + 9, filteredShops.length))}>
                   Load more
                 </button>
               </div>
