@@ -13,9 +13,10 @@ const navLinkClass = ({ isActive }) =>
 
 const Navbar = ({ cartCount }) => {
   const { toggleTheme, theme } = useTheme();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/50 bg-amber-50/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
@@ -57,7 +58,7 @@ const Navbar = ({ cartCount }) => {
                 onClick={() => setMenuOpen((open) => !open)}
               >
                 <UserCircle2 className="h-4 w-4" />
-                Account
+                {firstName}
                 <ChevronDown className={`h-4 w-4 transition ${menuOpen ? "rotate-180" : ""}`} />
               </button>
               {menuOpen ? (
