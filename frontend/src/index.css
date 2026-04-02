@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-50: 255 249 240;
+  --brand-100: 252 236 218;
+  --brand-200: 238 217 185;
+  --brand-300: 229 170 118;
+  --brand-400: 213 62 15;
+  --brand-500: 155 15 6;
+  --brand-600: 94 0 6;
+  --brand-700: 74 0 5;
+  --brand-800: 53 0 4;
+  --brand-900: 35 0 3;
+  --surface: 252 246 237;
+  --surface-soft: 255 250 245;
+  --ink: 39 18 15;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-body transition-colors duration-300 dark:text-slate-100;
+    background-color: rgb(var(--surface));
+    color: rgb(var(--ink));
+    background-image: theme("backgroundImage.mesh");
+    min-height: 100vh;
+  }
+
+  .dark body {
+    background-color: rgb(16 10 10);
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-[28px] border border-white/70 bg-white/90 shadow-lg shadow-brand-900/10 backdrop-blur dark:border-slate-800 dark:bg-slate-900/85;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-brand-100 bg-white px-4 py-3 text-sm outline-none ring-0 transition placeholder:text-slate-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-200 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-600;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-2xl border border-brand-100 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:text-brand-700 dark:border-slate-700 dark:text-slate-200;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-bold sm:text-3xl;
+  }
+
+  .section-kicker {
+    @apply text-xs font-semibold uppercase tracking-[0.32em] text-brand-500;
+  }
+}
