@@ -1,5 +1,17 @@
 import { partnerShops } from "./partnerShops.js";
 
+const DEMO_SHOP_ID = "shop-demo-zipzo";
+const DEMO_PRODUCT_IDS = new Set([
+  "demo-product-14-1",
+  "demo-product-14-4",
+  "demo-product-15-1",
+  "demo-product-16-2",
+  "demo-product-17-3",
+  "demo-product-18-1",
+  "demo-product-19-2",
+  "demo-product-20-1"
+]);
+
 const hashValue = (value = "") =>
   value.split("").reduce((sum, char, index) => sum + char.charCodeAt(0) * (index + 1), 0);
 
@@ -19,7 +31,11 @@ const buildComparisons = (product, primaryIndex) => {
 };
 
 export const decorateProductWithMarketplace = (product) => {
-  const primaryIndex = hashValue(product._id || product.name) % partnerShops.length;
+  const remainingShops = partnerShops.filter((shop) => shop.id !== DEMO_SHOP_ID);
+  const isDemoProduct = DEMO_PRODUCT_IDS.has(product._id);
+  const primaryIndex = isDemoProduct
+    ? 0
+    : (hashValue(product._id || product.name) % remainingShops.length) + 1;
   const shop = partnerShops[primaryIndex];
   const sellerComparisons = buildComparisons(product, primaryIndex);
   const primaryComparison = sellerComparisons.find((item) => item.shopId === shop.id) || sellerComparisons[0];

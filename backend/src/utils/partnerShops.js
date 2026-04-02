@@ -56,7 +56,21 @@ const baseSeeds = [
   }
 ];
 
-export const partnerShops = Array.from({ length: 45 }, (_, i) => {
+export const demoShop = {
+  id: "shop-demo-zipzo",
+  name: "Zipzo Demo Store",
+  city: "Hyderabad",
+  postalCodes: ["500001", "500032", "500081"],
+  rating: 4.9,
+  etaMinutes: 14,
+  since: 2024,
+  tags: ["Curated picks", "Fast movers", "Multi-category"],
+  offer: "Demo store deals live now"
+};
+
+export const partnerShops = [
+  demoShop,
+  ...Array.from({ length: 45 }, (_, i) => {
   const seed = baseSeeds[i % baseSeeds.length];
   const ratingTweak = Number((seed.rating - (i % 3) * 0.05).toFixed(1));
   return {
@@ -69,4 +83,5 @@ export const partnerShops = Array.from({ length: 45 }, (_, i) => {
     tags: seed.tags,
     offer: seed.offer
   };
-});
+})
+];
