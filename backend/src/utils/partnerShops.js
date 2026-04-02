@@ -6,6 +6,7 @@ export const partnerShops = [
     postalCodes: ["560001", "560008", "560017"],
     rating: 4.6,
     etaMinutes: 20,
+    since: 2019,
     tags: ["Fresh produce", "Organic"],
     offer: "Save ₹30 on tomorrow slots"
   },
@@ -16,6 +17,7 @@ export const partnerShops = [
     postalCodes: ["560034", "560076", "560095"],
     rating: 4.4,
     etaMinutes: 15,
+    since: 2020,
     tags: ["Dairy", "Bakery"],
     offer: "Buy 2 get 1 on breads"
   },
@@ -26,6 +28,7 @@ export const partnerShops = [
     postalCodes: ["500001", "500032", "500081"],
     rating: 4.5,
     etaMinutes: 18,
+    since: 2018,
     tags: ["Snacks", "Beverages"],
     offer: "Flat 10% off above ₹499"
   },
@@ -36,6 +39,7 @@ export const partnerShops = [
     postalCodes: ["400001", "400021", "400051"],
     rating: 4.7,
     etaMinutes: 22,
+    since: 2017,
     tags: ["Veggies", "Fruits"],
     offer: "Free delivery this week"
   },
@@ -46,6 +50,7 @@ export const partnerShops = [
     postalCodes: ["400050", "400067"],
     rating: 4.2,
     etaMinutes: 25,
+    since: 2021,
     tags: ["24x7", "Quick bites"],
     offer: "₹40 off above ₹299"
   }

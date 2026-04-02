@@ -37,6 +37,9 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/catalog" className={navLinkClass}>
             Catalog
           </NavLink>
+          <NavLink to="/shops" className={navLinkClass}>
+            Shops
+          </NavLink>
           <NavLink to="/orders" className={navLinkClass}>
             Orders
           </NavLink>
