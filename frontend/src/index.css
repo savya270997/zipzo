@@ -15,9 +15,9 @@
   --brand-700: 74 0 5;
   --brand-800: 53 0 4;
   --brand-900: 35 0 3;
-  --surface: 252 246 237;
-  --surface-soft: 255 250 245;
-  --ink: 39 18 15;
+  --surface: 255 253 248; /* slightly brighter base */
+  --surface-soft: 255 255 252; /* near-white for panels */
+  --ink: 36 20 18; /* softened text tone */
 }
 
 @layer base {
