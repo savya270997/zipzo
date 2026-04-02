@@ -28,7 +28,8 @@ export default {
         glow: "0 30px 80px rgba(var(--brand-600), 0.24)"
       },
       backgroundImage: {
-        mesh: "radial-gradient(circle at top left, rgba(var(--brand-400), 0.12), transparent 30%), radial-gradient(circle at bottom right, rgba(var(--brand-200), 0.16), transparent 32%)"
+        mesh:
+          "radial-gradient(circle at 15% 20%, rgba(var(--brand-300), 0.18), transparent 32%), radial-gradient(circle at 80% 75%, rgba(var(--brand-200), 0.22), transparent 34%)"
       }
     }
   },
