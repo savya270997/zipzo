@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
 import ImageInitials from "../components/ImageInitials";
-import ImageInitials from "../components/ImageInitials";
 
 const banners = [
   { title: "Zipzo Saver Fest", copy: "Combo deals on breakfast & dairy. Limited till midnight.", tone: "from-brand-500 via-amber-400 to-rose-300" },
