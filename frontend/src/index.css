@@ -23,6 +23,7 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    background-color: rgb(var(--surface));
   }
 
   body {
@@ -34,7 +35,7 @@
   }
 
   .dark body {
-    background-color: rgb(16 10 10);
+    background-color: rgb(28 22 20); /* deep cocoa instead of pure black */
   }
 
   #root {
