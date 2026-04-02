@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { CheckCircle2, Clock3, Repeat2 } from "lucide-react";
 import api from "../api/client";
 import { formatCurrency } from "../utils/currency";
+import ImageInitials from "../components/ImageInitials";
 
 const ProductPage = ({ onAddToCart, onSubscribe }) => {
   const { id } = useParams();
@@ -21,7 +22,12 @@ const ProductPage = ({ onAddToCart, onSubscribe }) => {
     <div className="shell py-10">
       <div className="grid gap-8 lg:grid-cols-2">
         <div className="card overflow-hidden">
-          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+          <ImageInitials
+            src={product.image}
+            name={product.name}
+            className="h-full w-full object-cover"
+            placeholderClass="h-full w-full text-5xl"
+          />
         </div>
         <div className="card p-8">
           <p className="text-sm uppercase tracking-[0.3em] text-brand-600">{product.category}</p>

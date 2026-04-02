@@ -13,6 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
+import ImageInitials from "../components/ImageInitials";
 
 const featureCards = [
   { icon: Sparkles, title: "AI Smart Baskets", copy: "Recommendations that become sharper after every order." },
@@ -149,7 +150,12 @@ const HomePage = ({ onAddToCart, recommendations = [] }) => {
                 to={`/catalog?category=${encodeURIComponent(product.category)}`}
                 className="group overflow-hidden rounded-[24px] border border-brand-100 bg-white p-4 transition hover:-translate-y-1 hover:border-brand-300 dark:border-slate-800 dark:bg-slate-950"
               >
-                <img src={product.image} alt={product.category} className="h-28 w-full rounded-2xl object-cover" />
+                <ImageInitials
+                  src={product.image}
+                  name={product.category}
+                  className="h-28 w-full rounded-2xl object-cover"
+                  placeholderClass="h-28 w-full rounded-2xl text-xl"
+                />
                 <p className="mt-4 font-display text-lg font-semibold">{product.category}</p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Starting from {product.brand}</p>
               </Link>

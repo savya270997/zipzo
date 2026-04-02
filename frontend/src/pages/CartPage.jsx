@@ -1,6 +1,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../utils/currency";
+import ImageInitials from "../components/ImageInitials";
 
 const CartPage = ({ cart, updateQuantity, removeItem }) => {
   const subtotal = cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
@@ -22,7 +23,12 @@ const CartPage = ({ cart, updateQuantity, removeItem }) => {
           ) : (
             cart.items.map((item) => (
               <div key={item._id} className="card flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
-                <img src={item.product.image} alt={item.product.name} className="h-24 w-24 rounded-2xl object-cover" />
+                <ImageInitials
+                  src={item.product.image}
+                  name={item.product.name}
+                  className="h-24 w-24 rounded-2xl object-cover"
+                  placeholderClass="h-24 w-24 rounded-2xl text-lg"
+                />
                 <div className="flex-1">
                   <p className="font-semibold">{item.product.name}</p>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{item.product.weight}</p>

@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import { Plus, Star } from "lucide-react";
 import { formatCurrency } from "../utils/currency";
+import ImageInitials from "./ImageInitials";
 
 const ProductCard = ({ product, onAdd }) => (
   <article className="card group overflow-hidden transition hover:-translate-y-1 hover:shadow-2xl">
     <div className="relative">
-      <img src={product.image} alt={product.name} className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+      <ImageInitials
+        src={product.image}
+        name={product.name}
+        className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+        placeholderClass="h-52 w-full text-3xl transition duration-500 group-hover:scale-[1.03] rounded-[24px]"
+      />
       <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-brand-600">
         {Math.max(product.mrp - product.price, 0) > 0 ? `${Math.round(((product.mrp - product.price) / product.mrp) * 100)}% off` : "Fresh deal"}
       </div>
