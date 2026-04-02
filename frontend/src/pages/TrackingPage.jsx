@@ -22,6 +22,7 @@ const TrackingPage = () => {
       <div className="mx-auto max-w-3xl card p-8">
         <p className="text-sm uppercase tracking-[0.3em] text-brand-600">Live order tracking</p>
         <h1 className="mt-3 font-display text-3xl font-bold capitalize">{tracking.currentStatus.replaceAll("_", " ")}</h1>
+        <p className="mt-2 text-sm font-medium text-slate-600 dark:text-slate-300">Order #{tracking.orderNumber || orderId}</p>
         <div className="mt-10 space-y-6">
           {tracking.timeline.map((step, index) => (
             <div key={step.status} className="flex gap-4">

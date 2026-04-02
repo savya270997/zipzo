@@ -183,7 +183,7 @@ const ProfilePage = ({ rewards, subscriptions = [], orders = [] }) => {
               {orders.slice(0, 4).map((order) => (
                 <div key={order._id} className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-semibold">{order._id}</p>
+                    <p className="font-semibold">#{order.orderNumber || order._id}</p>
                     <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">{order.status || "Placed"}</span>
                   </div>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">

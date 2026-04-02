@@ -23,6 +23,7 @@ export const getLiveTracking = (order) => {
 
   return {
     currentStatus,
+    orderNumber: order.orderNumber,
     timeline: timeline.map((item) => ({
       ...item,
       completed: new Date(item.timestamp).getTime() <= now

@@ -7,6 +7,7 @@ import { buildTrackingTimeline, getLiveTracking } from "../utils/orderTracking.j
 import { demoStore } from "../utils/demoStore.js";
 import { firebaseStore } from "../utils/firestoreStore.js";
 import { isFirebaseMode } from "../config/firebase.js";
+import { generateOrderNumber } from "../utils/generateOrderNumber.js";
 
 const isDemoMode = () => process.env.DEMO_MODE === "true";
 
@@ -71,6 +72,7 @@ export const placeOrder = async (req, res) => {
     const loyaltyPointsEarned = Math.floor(totals.total / 20);
     const order = await firebaseStore.createOrder({
       user: req.user._id,
+      orderNumber: generateOrderNumber(),
       items: cart.items.map((item) => ({
         product: item.product._id,
         name: item.product.name,
@@ -139,6 +141,7 @@ export const placeOrder = async (req, res) => {
   const loyaltyPointsEarned = Math.floor(totals.total / 20);
   const order = await Order.create({
     user: req.user._id,
+    orderNumber: generateOrderNumber(),
     items: cart.items.map((item) => ({
       product: item.product._id,
       name: item.product.name,

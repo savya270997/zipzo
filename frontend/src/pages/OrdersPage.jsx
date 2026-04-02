@@ -13,6 +13,7 @@ const OrdersPage = ({ orders }) => (
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-brand-600">{order.status.replaceAll("_", " ")}</p>
             <h2 className="mt-1 text-xl font-semibold">{formatCurrency(order.total)}</h2>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">Order #{order.orderNumber || order._id}</p>
             <p className="text-sm text-slate-500 dark:text-slate-400">{new Date(order.createdAt).toLocaleString()}</p>
           </div>
           <Link to={`/orders/${order._id}/tracking`} className="btn-secondary">

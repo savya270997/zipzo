@@ -15,6 +15,7 @@ const orderItemSchema = new mongoose.Schema(
 const orderSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    orderNumber: { type: String, required: true, unique: true },
     items: [orderItemSchema],
     address: { type: Object, required: true },
     paymentMethod: { type: String, enum: ["razorpay", "cod"], default: "razorpay" },
