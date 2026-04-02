@@ -420,6 +420,36 @@ const categoryConfigs = [
       ["Skipping Rope", "Adjustable rope for quick cardio sessions anywhere."],
       ["Gym Gloves", "Breathable gloves with palm grip and wrist support."]
     ]
+  },
+  {
+    category: "Toys & Games",
+    brand: "PlayNest",
+    baseWeight: "1 unit",
+    priceStart: 279,
+    tags: ["toys", "kids"],
+    imageQuery: "toys,games",
+    items: [
+      ["Building Blocks Set", "Colorful creative blocks for fun learning play."],
+      ["Remote Control Car", "Fast mini RC car for indoor and outdoor play."],
+      ["Puzzle Challenge 500", "Brainy puzzle set for family game evenings."],
+      ["Plush Teddy Bear", "Soft cuddle toy with premium fabric finish."],
+      ["Art & Craft Kit", "Hands-on creativity box with colors, paper, and tools."]
+    ]
+  },
+  {
+    category: "Kitchen Appliances",
+    brand: "HomePulse",
+    baseWeight: "1 unit",
+    priceStart: 1199,
+    tags: ["kitchen", "appliances"],
+    imageQuery: "kitchen,appliances",
+    items: [
+      ["Mixer Grinder", "Compact kitchen grinder for chutneys, shakes, and masalas."],
+      ["Electric Kettle", "Fast-boil kettle for tea, coffee, and instant meals."],
+      ["Air Fryer Mini", "Low-oil fryer for crispy snacks and quick meals."],
+      ["Hand Blender", "Lightweight blender for soups, shakes, and sauces."],
+      ["Sandwich Maker", "Non-stick toaster for quick breakfast sandwiches."]
+    ]
   }
 ];
 
