@@ -5,6 +5,7 @@ import { isFirebaseMode } from "../config/firebase.js";
 import { decorateProductWithMarketplace, decorateProductsWithMarketplace } from "../utils/marketplaceData.js";
 
 const isDemoMode = () => process.env.DEMO_MODE === "true";
+const toPlainProduct = (product) => (product?.toObject ? product.toObject() : product);
 
 const filterCatalog = (products, query) => {
   const { search, category, brand, minPrice, maxPrice, featured } = query;
@@ -73,7 +74,7 @@ export const getProducts = async (req, res) => {
   const categories = await Product.distinct("category");
   const brands = await Product.distinct("brand");
 
-  res.json({ products: decorateProductsWithMarketplace(products), filters: { categories, brands } });
+  res.json({ products: decorateProductsWithMarketplace(products.map(toPlainProduct)), filters: { categories, brands } });
 };
 
 export const getProductById = async (req, res) => {

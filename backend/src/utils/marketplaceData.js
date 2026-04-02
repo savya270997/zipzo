@@ -13,7 +13,9 @@ const DEMO_PRODUCT_IDS = new Set([
 ]);
 
 const hashValue = (value = "") =>
-  value.split("").reduce((sum, char, index) => sum + char.charCodeAt(0) * (index + 1), 0);
+  String(value ?? "")
+    .split("")
+    .reduce((sum, char, index) => sum + char.charCodeAt(0) * (index + 1), 0);
 
 const buildComparisons = (product, primaryIndex) => {
   return Array.from({ length: 3 }, (_, offset) => {
@@ -32,10 +34,11 @@ const buildComparisons = (product, primaryIndex) => {
 
 export const decorateProductWithMarketplace = (product) => {
   const remainingShops = partnerShops.filter((shop) => shop.id !== DEMO_SHOP_ID);
-  const isDemoProduct = DEMO_PRODUCT_IDS.has(product._id);
+  const productId = String(product?._id ?? "");
+  const isDemoProduct = DEMO_PRODUCT_IDS.has(productId);
   const primaryIndex = isDemoProduct
     ? 0
-    : (hashValue(product._id || product.name) % remainingShops.length) + 1;
+    : (hashValue(productId || product.name) % remainingShops.length) + 1;
   const shop = partnerShops[primaryIndex];
   const sellerComparisons = buildComparisons(product, primaryIndex);
   const primaryComparison = sellerComparisons.find((item) => item.shopId === shop.id) || sellerComparisons[0];

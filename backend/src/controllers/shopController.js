@@ -1,3 +1,4 @@
+import { Product } from "../models/Product.js";
 import { partnerShops } from "../utils/partnerShops.js";
 import { catalogProducts } from "../utils/catalogData.js";
 import { firebaseStore } from "../utils/firestoreStore.js";
@@ -9,6 +10,11 @@ const normalizePostal = (code) => (code || "").toString().trim();
 const loadCatalog = async () => {
   if (isFirebaseMode()) {
     return firebaseStore.getProducts();
+  }
+
+  if (process.env.DEMO_MODE !== "true") {
+    const products = await Product.find({}).sort({ createdAt: -1 });
+    return products.map((product) => (product.toObject ? product.toObject() : product));
   }
 
   return catalogProducts;
