@@ -205,26 +205,32 @@ const ShopsPage = () => {
                     </div>
                   </div>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="shop-metric bg-amber-50 text-amber-700">
-                      <Star className="h-3.5 w-3.5 fill-current" />
-                      {shop.rating}
-                    </span>
-                    <span className="shop-metric">{shop.etaMinutes} min ETA</span>
-                    {shop.since ? <span className="shop-metric">Since {shop.since}</span> : null}
-                    {shop.productCount ? <span className="shop-metric">{shop.productCount} products</span> : null}
+                  <div className="shop-card-body">
+                    <div className="flex min-h-[60px] flex-wrap gap-2">
+                      <span className="shop-metric bg-amber-50 text-amber-700">
+                        <Star className="h-3.5 w-3.5 fill-current" />
+                        {shop.rating}
+                      </span>
+                      <span className="shop-metric">{shop.etaMinutes} min ETA</span>
+                      {shop.since ? <span className="shop-metric">Since {shop.since}</span> : null}
+                      {shop.productCount ? <span className="shop-metric">{shop.productCount} products</span> : null}
+                    </div>
+
+                    <div className="mt-4 min-h-[84px]">
+                      <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                        {(shop.tags || []).slice(0, 3).join(" • ")}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="mt-4 flex min-h-[104px] flex-col">
-                    <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
-                      {(shop.tags || []).slice(0, 3).join(" • ")}
+                  <div className="shop-card-footer mt-auto">
+                    <Link to={`/shops/${shop.id}`} className="shop-cta">
+                      Shop now
+                    </Link>
+                    <p className="mt-2 text-center text-xs font-medium text-slate-400">
+                      Explore seller details and compare prices
                     </p>
-                    <div className="mt-auto pt-4">
-                      <Link to={`/shops/${shop.id}`} className="shop-cta">
-                        Shop now
-                      </Link>
-                    </div>
                   </div>
                 </div>
               ))}

@@ -54,7 +54,7 @@
   }
 
   .shop-card {
-    @apply relative flex h-full flex-col overflow-hidden rounded-[30px] border border-brand-100/80 bg-white p-5 shadow-[0_16px_38px_rgba(122,61,18,0.08)] ring-1 ring-white/70 backdrop-blur;
+    @apply relative flex h-full flex-col overflow-hidden rounded-[30px] border border-brand-100/80 bg-white p-5 shadow-[0_14px_30px_rgba(122,61,18,0.07)] ring-1 ring-white/80 backdrop-blur;
   }
 
   .shop-card::before {
@@ -67,15 +67,23 @@
   }
 
   .shop-metric {
-    @apply inline-flex items-center gap-1 rounded-full border border-white/80 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 shadow-sm;
+    @apply inline-flex items-center gap-1 rounded-full border border-white/90 bg-white px-2.5 py-1 text-xs font-medium text-slate-600 shadow-sm;
   }
 
   .shop-cta {
-    @apply inline-flex w-full items-center justify-center rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(225,135,63,0.28)] transition;
+    @apply inline-flex w-full items-center justify-center rounded-2xl border border-brand-500 bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(225,135,63,0.28)] transition;
   }
 
   .shop-cta:hover {
-    @apply bg-brand-600 shadow-[0_16px_30px_rgba(200,111,45,0.34)];
+    @apply -translate-y-0.5 border-brand-600 bg-brand-600 shadow-[0_18px_34px_rgba(200,111,45,0.34)];
+  }
+
+  .shop-card-body {
+    @apply mt-4 rounded-[24px] border border-brand-100/70 bg-gradient-to-br from-brand-50/70 to-white px-4 py-4;
+  }
+
+  .shop-card-footer {
+    @apply mt-5 border-t border-brand-100/80 pt-4;
   }
 
   .input {
@@ -123,8 +131,8 @@
   }
 
   .shop-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px) scale(1.01);
     border-color: rgba(var(--brand-300), 0.95);
-    box-shadow: 0 26px 52px rgba(122, 61, 18, 0.14);
+    box-shadow: 0 30px 56px rgba(122, 61, 18, 0.16);
   }
 }
