@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import api from "../api/client";
 import { useAuth } from "../context/AuthContext";
 
@@ -16,7 +17,7 @@ const emptyAddress = {
   isDefault: false
 };
 
-const ProfilePage = ({ rewards, subscriptions = [] }) => {
+const ProfilePage = ({ rewards, subscriptions = [], orders = [] }) => {
   const { user } = useAuth();
   const [addresses, setAddresses] = useState([]);
   const [addressForm, setAddressForm] = useState(emptyAddress);
@@ -165,6 +166,35 @@ const ProfilePage = ({ rewards, subscriptions = [] }) => {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
+        <div className="card p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="section-kicker">Orders</p>
+              <h2 className="section-title">Recent order history</h2>
+            </div>
+            <Link to="/orders" className="btn-secondary">
+              View all
+            </Link>
+          </div>
+          {orders.length === 0 ? (
+            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">No orders yet.</p>
+          ) : (
+            <div className="mt-3 space-y-3">
+              {orders.slice(0, 4).map((order) => (
+                <div key={order._id} className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-semibold">{order._id}</p>
+                    <span className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">{order.status || "Placed"}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    {order.items?.length || 0} items • {order.paymentMethod || "Online payment"}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="card p-6">
           <p className="section-kicker">Rewards</p>
           <h2 className="section-title">Loyalty overview</h2>

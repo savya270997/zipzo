@@ -40,9 +40,6 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/shops" className={navLinkClass}>
             Shops
           </NavLink>
-          <NavLink to="/orders" className={navLinkClass}>
-            Orders
-          </NavLink>
         </nav>
 
         <div className="flex items-center gap-2">

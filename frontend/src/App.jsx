@@ -182,7 +182,7 @@ const App = () => {
           path="/profile"
           element={
             <PrivateRoute>
-              <ProfilePage rewards={rewards} subscriptions={subscriptions} />
+              <ProfilePage rewards={rewards} subscriptions={subscriptions} orders={orders} />
             </PrivateRoute>
           }
         />
