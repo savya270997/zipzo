@@ -11,6 +11,7 @@ const ShopsPage = () => {
   const [addresses, setAddresses] = useState([]);
   const [activeAddress, setActiveAddress] = useState(null);
   const [locStatus, setLocStatus] = useState("");
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -26,6 +27,7 @@ const ShopsPage = () => {
       const { data } = await api.get("/shops/nearby");
       setShops(data.shops || []);
       setShopMeta({ city: data.city, postalCode: data.postalCode });
+      setVisibleCount(9);
       if (!activeAddress && data.city) {
         setActiveAddress({ city: data.city, postalCode: data.postalCode, label: data.addressLabel || "Default" });
       }
@@ -140,34 +142,43 @@ const ShopsPage = () => {
         {shops.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Add or switch an address to see nearby partner stores.</p>
         ) : (
-          <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {shops.map((shop) => (
-              <div key={shop.id} className="card h-full p-5">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
-                    <Store className="h-5 w-5" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-semibold">{shop.name}</p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{shop.city}</p>
-                    <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-amber-700 dark:bg-amber-500/20 dark:text-amber-100">
-                        <Star className="h-3.5 w-3.5 fill-current" />
-                        {shop.rating}
-                      </span>
-                      <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.etaMinutes} min ETA</span>
-                      {shop.since ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">Since {shop.since}</span> : null}
+          <>
+            <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {shops.slice(0, visibleCount).map((shop) => (
+                <div key={shop.id} className="card h-full p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
+                      <Store className="h-5 w-5" />
                     </div>
-                    <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      {shop.tags?.slice(0, 3).join(" • ")}
-                    </p>
+                    <div className="flex-1">
+                      <p className="font-semibold">{shop.name}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{shop.city}</p>
+                      <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-amber-700 dark:bg-amber-500/20 dark:text-amber-100">
+                          <Star className="h-3.5 w-3.5 fill-current" />
+                          {shop.rating}
+                        </span>
+                        <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">{shop.etaMinutes} min ETA</span>
+                        {shop.since ? <span className="rounded-full bg-slate-100 px-2 py-1 dark:bg-slate-800">Since {shop.since}</span> : null}
+                      </div>
+                      <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        {shop.tags?.slice(0, 3).join(" • ")}
+                      </p>
+                    </div>
                   </div>
+                  <button className="btn-primary mt-4 w-full">Shop now</button>
                 </div>
-                <button className="btn-primary mt-4 w-full">Shop now</button>
+              ))}
+            </div>
+            {visibleCount < shops.length ? (
+              <div className="mt-4 flex justify-center">
+                <button className="btn-secondary" onClick={() => setVisibleCount((c) => Math.min(c + 9, shops.length))}>
+                  Load more
+                </button>
               </div>
-            ))}
-          </div>
+            ) : null}
+          </>
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-export const partnerShops = [
+const baseSeeds = [
   {
     id: "shop-green-basket",
     name: "Green Basket Mart",
@@ -55,3 +55,18 @@ export const partnerShops = [
     offer: "₹40 off above ₹299"
   }
 ];
+
+export const partnerShops = Array.from({ length: 45 }, (_, i) => {
+  const seed = baseSeeds[i % baseSeeds.length];
+  const ratingTweak = Number((seed.rating - (i % 3) * 0.05).toFixed(1));
+  return {
+    ...seed,
+    id: `${seed.id}-${i + 1}`,
+    name: `${seed.name} #${i + 1}`,
+    rating: ratingTweak < 3.8 ? 3.8 : ratingTweak,
+    etaMinutes: seed.etaMinutes + (i % 5) * 2,
+    since: seed.since - (i % 4),
+    tags: seed.tags,
+    offer: seed.offer
+  };
+});
