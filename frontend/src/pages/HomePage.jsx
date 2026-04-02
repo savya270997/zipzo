@@ -1,15 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowRight,
   BadgePercent,
   Gift,
-  LocateFixed,
-  MapPin,
   Mic,
   Repeat2,
   ShieldCheck,
   Sparkles,
-  Store,
   TimerReset,
   Zap
 } from "lucide-react";
@@ -17,7 +13,6 @@ import { Link } from "react-router-dom";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
 import ImageInitials from "../components/ImageInitials";
-import { useAuth } from "../context/AuthContext";
 
 const banners = [
   { title: "Zipzo Saver Fest", copy: "Combo deals on breakfast & dairy. Limited till midnight.", tone: "from-brand-500 via-amber-400 to-rose-300" },
@@ -39,63 +34,15 @@ const featureCards = [
 ];
 
 const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints: 0, nextRewardAt: 100 } }) => {
-  const { isAuthenticated } = useAuth();
   const [featured, setFeatured] = useState([]);
   const [catalog, setCatalog] = useState([]);
   const [bannerIndex, setBannerIndex] = useState(0);
   const [sideBannerIndex, setSideBannerIndex] = useState(0);
-  const [shops, setShops] = useState([]);
-  const [shopMeta, setShopMeta] = useState({ city: "", postalCode: "" });
-  const [addresses, setAddresses] = useState([]);
-  const [activeAddress, setActiveAddress] = useState(null);
-  const [locStatus, setLocStatus] = useState("");
 
   useEffect(() => {
     api.get("/products/featured").then(({ data }) => setFeatured(data));
     api.get("/products").then(({ data }) => setCatalog(data.products || []));
   }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setAddresses([]);
-      setActiveAddress(null);
-      return;
-    }
-
-    const load = async () => {
-      try {
-        const { data } = await api.get("/addresses");
-        setAddresses(data);
-        const def = data.find((a) => a.isDefault) || data[0];
-        setActiveAddress(def || null);
-      } catch (err) {
-        console.error("Unable to load addresses", err);
-      }
-    };
-
-    load();
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setShops([]);
-      return;
-    }
-
-    api
-      .get("/shops/nearby")
-      .then(({ data }) => {
-        setShops(data.shops || []);
-        setShopMeta({ city: data.city, postalCode: data.postalCode });
-        if (!activeAddress && data.city) {
-          setActiveAddress({ city: data.city, postalCode: data.postalCode, label: data.addressLabel || "Default" });
-        }
-      })
-      .catch(() => {
-        setShops([]);
-        setShopMeta({ city: "", postalCode: "" });
-      });
-  }, [isAuthenticated, activeAddress]);
 
   useEffect(() => {
     const mainTimer = setInterval(() => {
@@ -141,79 +88,6 @@ const HomePage = ({ onAddToCart, recommendations = [], rewards = { loyaltyPoints
 
   return (
     <div className="space-y-14 pb-16">
-      {isAuthenticated ? (
-        <section className="shell mt-6">
-          <div className="card relative z-20 flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.26em] text-brand-600">Delivering to</p>
-                <p className="font-semibold">
-                  {activeAddress ? `${activeAddress.label || "Default"} • ${activeAddress.city || ""} ${activeAddress.postalCode || ""}` : "Add an address"}
-                </p>
-                {locStatus ? <p className="text-xs text-slate-500 dark:text-slate-400">{locStatus}</p> : null}
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <details className="group relative">
-                <summary className="btn-secondary cursor-pointer list-none gap-2">
-                  Switch address
-                  <ArrowRight className="inline h-4 w-4 rotate-90 transition group-open:-rotate-90" />
-                </summary>
-                <div className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-slate-200 bg-white p-3 shadow-lg dark:border-slate-800 dark:bg-slate-900">
-                  {addresses.length === 0 ? (
-                    <p className="text-sm text-slate-500 dark:text-slate-400">No addresses yet</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {addresses.map((addr) => (
-                        <button
-                          key={addr._id}
-                          className={`w-full rounded-xl border px-3 py-2 text-left text-sm ${
-                            activeAddress?._id === addr._id ? "border-brand-500 bg-brand-50 text-brand-800 dark:bg-brand-900/30" : "border-slate-200 dark:border-slate-700"
-                          }`}
-                          onClick={async () => {
-                            setActiveAddress(addr);
-                            await api.patch(`/addresses/${addr._id}`, { isDefault: true });
-                            setLocStatus("");
-                          }}
-                        >
-                          {addr.label || "Address"} • {addr.city} {addr.postalCode}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <Link to="/checkout" className="mt-3 block text-xs font-semibold text-brand-600 hover:underline">
-                    Manage addresses
-                  </Link>
-                </div>
-              </details>
-              <button
-                className="btn-secondary gap-2"
-                onClick={() => {
-                  if (!navigator.geolocation) {
-                    setLocStatus("Location not supported on this browser");
-                    return;
-                  }
-                  setLocStatus("Fetching live location…");
-                  navigator.geolocation.getCurrentPosition(
-                    (pos) => {
-                      const { latitude, longitude } = pos.coords;
-                      setLocStatus(`Using GPS: ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`);
-                    },
-                    () => setLocStatus("Unable to fetch location")
-                  );
-                }}
-              >
-                <LocateFixed className="h-4 w-4" />
-                Use GPS
-              </button>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
       <section className="shell space-y-6 py-8 lg:py-12">
         <div className={`card overflow-hidden bg-gradient-to-br ${banners[bannerIndex].tone} p-8 text-white shadow-glow sm:p-10 transition`}>
           <p className="mb-4 inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-brand-100">
