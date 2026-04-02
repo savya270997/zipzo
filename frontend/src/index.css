@@ -57,7 +57,7 @@
   }
 
   .card {
-    @apply rounded-[28px] border border-white/80 bg-white/92 shadow-[0_16px_38px_rgba(122,61,18,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900/88;
+    @apply rounded-[28px] border border-white/80 bg-white shadow-[0_16px_38px_rgba(122,61,18,0.08)] backdrop-blur dark:border-slate-800 dark:bg-slate-900;
   }
 
   .shop-card {
