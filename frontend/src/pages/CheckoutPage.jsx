@@ -16,7 +16,11 @@ const initialAddress = {
   isDefault: false
 };
 
-const slots = ["Instant (10-15 mins)", "Tomorrow 7:00 AM - 8:00 AM", "Tomorrow 6:00 PM - 7:00 PM"];
+const slots = [
+  { id: "instant", label: "Instant (10-15 mins)", note: "Fastest", discount: 0 },
+  { id: "tomorrow-morning", label: "Tomorrow 7:00 AM - 8:00 AM", note: "Save ₹30 for flexible delivery", discount: 30 },
+  { id: "tomorrow-evening", label: "Tomorrow 6:00 PM - 7:00 PM", note: "Save ₹30 for flexible delivery", discount: 30 }
+];
 
 const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
   const [addresses, setAddresses] = useState([]);
@@ -32,8 +36,9 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
 
   const subtotal = cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const deliveryFee = subtotal > 499 ? 0 : 35;
+  const slotDiscount = scheduledSlot?.discount || 0;
   const offerDiscount = appliedOffer?.type === "flat" ? appliedOffer.value : appliedOffer?.type === "percent" ? Math.round((subtotal * appliedOffer.value) / 100) : 0;
-  const total = Math.max(subtotal + deliveryFee - offerDiscount, 0);
+  const total = Math.max(subtotal + deliveryFee - offerDiscount - slotDiscount, 0);
 
   const availableOffers = [
     { code: "ZIP50", label: "₹50 off above ₹399", type: "flat", value: 50, min: 399 },
@@ -226,9 +231,29 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
           <h2 className="font-display text-2xl font-semibold">Delivery slot</h2>
           <div className="mt-4 space-y-3">
             {slots.map((slot) => (
-              <label key={slot} className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
-                <input type="radio" checked={scheduledSlot === slot} onChange={() => setScheduledSlot(slot)} />
-                <span>{slot}</span>
+              <label
+                key={slot.id}
+                className={`flex cursor-pointer items-center justify-between gap-3 rounded-2xl border p-4 transition ${
+                  scheduledSlot.id === slot.id ? "border-brand-500 bg-brand-50 text-brand-800 dark:bg-brand-900/30" : "border-slate-200 hover:border-brand-300 dark:border-slate-700"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    checked={scheduledSlot.id === slot.id}
+                    onChange={() => setScheduledSlot(slot)}
+                    className="mt-1"
+                  />
+                  <div>
+                    <p className="font-semibold">{slot.label}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{slot.note}</p>
+                  </div>
+                </div>
+                {slot.discount > 0 ? (
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-200">
+                    Save ₹{slot.discount}
+                  </span>
+                ) : null}
               </label>
             ))}
           </div>
@@ -321,6 +346,12 @@ const CheckoutPage = ({ cart, refreshCart, refreshUser }) => {
               <div className="flex justify-between text-emerald-700">
                 <span>Offer ({appliedOffer.code})</span>
                 <span>-{formatCurrency(appliedOffer.type === "flat" ? appliedOffer.value : offerDiscount)}</span>
+              </div>
+            ) : null}
+            {slotDiscount > 0 ? (
+              <div className="flex justify-between text-emerald-700">
+                <span>Slot savings</span>
+                <span>-{formatCurrency(slotDiscount)}</span>
               </div>
             ) : null}
             <div className="flex justify-between text-base font-bold">
