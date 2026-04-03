@@ -119,11 +119,11 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-2xl border border-brand-100 bg-white/90 px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_8px_18px_rgba(122,61,18,0.06)] dark:border-slate-700 dark:text-slate-200;
+    @apply inline-flex items-center justify-center rounded-2xl border border-brand-100 bg-white/90 px-5 py-3 text-sm font-semibold text-slate-700 shadow-[0_8px_18px_rgba(122,61,18,0.06)] dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200;
   }
 
   .btn-secondary:hover {
-    @apply -translate-y-0.5 border-brand-300 text-brand-700 shadow-[0_14px_28px_rgba(122,61,18,0.1)];
+    @apply -translate-y-0.5 border-brand-300 text-brand-700 shadow-[0_14px_28px_rgba(122,61,18,0.1)] dark:border-brand-700 dark:bg-slate-800 dark:text-brand-100;
   }
 
   .section-title {
