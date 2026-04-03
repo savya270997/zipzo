@@ -174,17 +174,17 @@
   }
 
   .product-card:hover {
-    transform: translateY(-9px) rotate(-1.2deg);
+    transform: translateY(-7px);
     background-color: rgb(var(--brand-900));
     border-color: rgba(var(--brand-300), 0.9);
-    box-shadow: 0 30px 56px rgba(var(--brand-900), 0.2);
+    box-shadow: 0 26px 48px rgba(var(--brand-900), 0.18);
   }
 
   .shop-card:hover {
-    transform: translateY(-10px) rotate(-1deg);
+    transform: translateY(-7px);
     background-color: rgb(var(--brand-900));
     border-color: rgba(var(--brand-300), 0.9);
-    box-shadow: 0 30px 56px rgba(var(--brand-900), 0.2);
+    box-shadow: 0 26px 48px rgba(var(--brand-900), 0.18);
   }
 
   .product-card:hover::after,
@@ -208,46 +208,50 @@
   .shop-card:hover .shop-subtle,
   .shop-card:hover .shop-offer,
   .product-card:hover .product-stock {
-    color: rgba(255, 225, 233, 0.88);
+    color: rgba(255, 231, 236, 0.92);
   }
 
   .product-card:hover .meta-pill,
   .product-card:hover .shop-metric,
   .shop-card:hover .shop-metric,
   .shop-card:hover .featured-pill {
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.12);
     color: rgb(255 244 245);
   }
 
   .product-card:hover .meta-pill-accent,
   .shop-card:hover .shop-metric-accent {
-    background: rgba(var(--brand-200), 0.24);
+    background: rgba(var(--brand-200), 0.18);
     color: rgb(255 233 238);
   }
 
   .product-card:hover .product-divider {
-    border-color: rgba(var(--brand-100), 0.18);
+    border-color: rgba(var(--brand-100), 0.22);
   }
 
   .product-card:hover .btn-primary,
   .shop-card:hover .btn-primary {
-    background: rgb(255 247 237);
+    background: rgb(255 247 249);
     color: rgb(var(--brand-900));
     box-shadow: 0 16px 30px rgba(46, 47, 49, 0.18);
   }
 
+  .product-card:hover .product-content {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.015));
+  }
+
   .product-card:hover .product-media {
-    opacity: 0.16;
+    opacity: 0.12;
     transform: scale(1.02);
   }
 
   .product-card:hover .product-media img,
   .product-card:hover .product-media > div {
-    filter: saturate(0.75) brightness(0.55);
+    filter: saturate(0.7) brightness(0.45);
   }
 
   .product-card:hover .product-badge {
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.12);
     color: rgb(255 240 244);
     box-shadow: none;
   }

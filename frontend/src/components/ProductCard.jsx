@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAdd, style }) => (
         {Math.max(product.mrp - product.price, 0) > 0 ? `${Math.round(((product.mrp - product.price) / product.mrp) * 100)}% off` : "Fresh deal"}
       </div>
     </div>
-    <div className="flex flex-1 flex-col space-y-4 p-5">
+    <div className="product-content flex flex-1 flex-col space-y-4 p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="product-subtle text-[11px] uppercase tracking-[0.24em] text-brand-500">{product.category}</p>
