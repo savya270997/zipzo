@@ -5,14 +5,14 @@ import ImageInitials from "./ImageInitials";
 
 const ProductCard = ({ product, onAdd, style }) => (
   <article className="product-card group" style={style}>
-    <div className="relative">
+    <div className="product-media relative">
       <ImageInitials
         src={product.image}
         name={product.name}
         className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
         placeholderClass="h-52 w-full rounded-t-[28px] text-3xl transition duration-500 group-hover:scale-[1.03]"
       />
-      <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-brand-600 shadow-sm">
+      <div className="product-badge absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-brand-600 shadow-sm">
         {Math.max(product.mrp - product.price, 0) > 0 ? `${Math.round(((product.mrp - product.price) / product.mrp) * 100)}% off` : "Fresh deal"}
       </div>
     </div>
