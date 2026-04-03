@@ -175,12 +175,14 @@
 
   .product-card:hover {
     transform: translateY(-9px) rotate(-1.2deg);
+    background-color: rgb(var(--brand-900));
     border-color: rgba(var(--brand-300), 0.9);
     box-shadow: 0 30px 56px rgba(var(--brand-900), 0.2);
   }
 
   .shop-card:hover {
     transform: translateY(-10px) rotate(-1deg);
+    background-color: rgb(var(--brand-900));
     border-color: rgba(var(--brand-300), 0.9);
     box-shadow: 0 30px 56px rgba(var(--brand-900), 0.2);
   }
@@ -237,6 +239,11 @@
   .product-card:hover .product-media {
     opacity: 0.16;
     transform: scale(1.02);
+  }
+
+  .product-card:hover .product-media img,
+  .product-card:hover .product-media > div {
+    filter: saturate(0.75) brightness(0.55);
   }
 
   .product-card:hover .product-badge {
