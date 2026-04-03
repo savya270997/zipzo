@@ -19,8 +19,8 @@ const ProductCard = ({ product, onAdd, style }) => (
     <div className="flex flex-1 flex-col space-y-4 p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-brand-500">{product.category}</p>
-          <Link to={`/products/${product._id}`} className="mt-1 block text-lg font-semibold leading-6 text-slate-800 transition-colors hover:text-brand-700">
+          <p className="product-subtle text-[11px] uppercase tracking-[0.24em] text-brand-500">{product.category}</p>
+          <Link to={`/products/${product._id}`} className="product-title mt-1 block text-lg font-semibold leading-6 text-slate-800 transition-colors hover:text-brand-700">
             {product.name}
           </Link>
         </div>
@@ -30,9 +30,9 @@ const ProductCard = ({ product, onAdd, style }) => (
       </div>
       <div className="flex min-h-[48px] items-start justify-between gap-4 text-sm">
         <div className="min-w-0">
-          <p className="truncate text-slate-500 dark:text-slate-400">{product.brand}</p>
+          <p className="product-subtle truncate text-slate-500 dark:text-slate-400">{product.brand}</p>
           {product.shop ? (
-            <Link to={`/shops/${product.shop.id}`} className="mt-1 inline-block text-xs font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline dark:text-brand-300">
+            <Link to={`/shops/${product.shop.id}`} className="product-subtle mt-1 inline-block text-xs font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline dark:text-brand-300">
               Sold by {product.shop.name}
             </Link>
           ) : null}
@@ -42,11 +42,11 @@ const ProductCard = ({ product, onAdd, style }) => (
           {product.rating}
         </span>
       </div>
-      <div className="mt-auto flex items-end justify-between gap-3 border-t border-brand-100/80 pt-4">
+      <div className="product-divider mt-auto flex items-end justify-between gap-3 border-t border-brand-100/80 pt-4">
         <div>
-          <p className="text-lg font-bold text-slate-900">{formatCurrency(product.price)}</p>
-          <p className="text-xs text-slate-400 line-through">{formatCurrency(product.mrp)}</p>
-          <p className="mt-1 text-xs text-emerald-600">{product.stock > 0 ? `${product.stock} left in stock` : "Out of stock"}</p>
+          <p className="product-price text-lg font-bold text-slate-900">{formatCurrency(product.price)}</p>
+          <p className="product-subtle text-xs text-slate-400 line-through">{formatCurrency(product.mrp)}</p>
+          <p className="product-stock mt-1 text-xs text-emerald-600">{product.stock > 0 ? `${product.stock} left in stock` : "Out of stock"}</p>
         </div>
         <button className="btn-primary gap-2 px-4 py-2" onClick={() => onAdd(product._id)}>
           <Plus className="h-4 w-4" />

@@ -185,7 +185,7 @@ const ShopsPage = () => {
           <>
             <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredShops.slice(0, visibleCount).map((shop, index) => (
-                <div key={shop.id} className="shop-card" style={{ animationDelay: `${index * 55}ms` }}>
+                <div key={shop.id} className="shop-card group" style={{ animationDelay: `${index * 55}ms` }}>
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
                       <Store className="h-5 w-5" />
@@ -193,11 +193,11 @@ const ShopsPage = () => {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <p className="text-lg font-semibold leading-tight text-slate-800 dark:text-slate-100">{shop.name}</p>
-                          <p className="mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">{shop.city}</p>
+                          <p className="shop-title text-lg font-semibold leading-tight text-slate-800 dark:text-slate-100">{shop.name}</p>
+                          <p className="shop-subtle mt-1 text-sm font-medium text-slate-500 dark:text-slate-400">{shop.city}</p>
                         </div>
                         {shop.id === "shop-demo-zipzo" ? (
-                          <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+                          <span className="featured-pill rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
                             Featured
                           </span>
                         ) : null}
@@ -207,7 +207,7 @@ const ShopsPage = () => {
 
                   <div className="shop-card-body">
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="shop-metric bg-amber-50 text-amber-700">
+                      <span className="shop-metric shop-metric-accent bg-amber-50 text-amber-700">
                         <Star className="h-3.5 w-3.5 fill-current" />
                         {shop.rating}
                       </span>
@@ -217,8 +217,8 @@ const ShopsPage = () => {
                     </div>
 
                     <div className="mt-5 min-h-[88px]">
-                      <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                      <p className="shop-offer text-sm font-semibold text-emerald-700 dark:text-emerald-400">{shop.offer}</p>
+                      <p className="shop-subtle mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
                         {(shop.tags || []).slice(0, 3).join(" • ")}
                       </p>
                     </div>
