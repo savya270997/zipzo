@@ -77,9 +77,9 @@
     content: "";
     @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300;
     background:
-      radial-gradient(circle at top right, rgba(var(--brand-300), 0.24), transparent 34%),
-      radial-gradient(circle at bottom left, rgba(var(--brand-500), 0.18), transparent 42%),
-      linear-gradient(152deg, rgba(var(--brand-900), 0.985), rgba(var(--brand-800), 0.97) 58%, rgba(var(--brand-700), 0.95));
+      radial-gradient(circle at top right, rgba(var(--brand-300), 0.3), transparent 32%),
+      radial-gradient(circle at bottom left, rgba(var(--brand-400), 0.28), transparent 40%),
+      linear-gradient(155deg, rgba(var(--brand-500), 0.98), rgba(var(--brand-700), 0.96) 55%, rgba(var(--brand-900), 0.96));
   }
 
   .shop-metric {
@@ -175,16 +175,16 @@
 
   .product-card:hover {
     transform: translateY(-7px);
-    background-color: rgb(var(--brand-900));
+    background: linear-gradient(155deg, rgb(var(--brand-500)), rgb(var(--brand-700)) 55%, rgb(var(--brand-900)));
     border-color: rgba(var(--brand-300), 0.9);
-    box-shadow: 0 26px 48px rgba(var(--brand-900), 0.18);
+    box-shadow: 0 26px 48px rgba(var(--brand-700), 0.24);
   }
 
   .shop-card:hover {
     transform: translateY(-7px);
-    background-color: rgb(var(--brand-900));
+    background: linear-gradient(155deg, rgb(var(--brand-500)), rgb(var(--brand-700)) 55%, rgb(var(--brand-900)));
     border-color: rgba(var(--brand-300), 0.9);
-    box-shadow: 0 26px 48px rgba(var(--brand-900), 0.18);
+    box-shadow: 0 26px 48px rgba(var(--brand-700), 0.24);
   }
 
   .product-card:hover::after,
@@ -201,28 +201,28 @@
   .product-card:hover .product-title,
   .shop-card:hover .shop-title,
   .product-card:hover .product-price {
-    color: rgb(255 252 253);
+    color: rgb(255 250 252);
   }
 
   .product-card:hover .product-subtle,
   .shop-card:hover .shop-subtle,
   .shop-card:hover .shop-offer,
   .product-card:hover .product-stock {
-    color: rgba(255, 231, 236, 0.92);
+    color: rgba(255, 236, 241, 0.92);
   }
 
   .product-card:hover .meta-pill,
   .product-card:hover .shop-metric,
   .shop-card:hover .shop-metric,
   .shop-card:hover .featured-pill {
-    background: rgba(255, 255, 255, 0.12);
-    color: rgb(255 244 245);
+    background: rgba(255, 255, 255, 0.14);
+    color: rgb(255 245 247);
   }
 
   .product-card:hover .meta-pill-accent,
   .shop-card:hover .shop-metric-accent {
-    background: rgba(var(--brand-200), 0.18);
-    color: rgb(255 233 238);
+    background: rgba(255, 255, 255, 0.18);
+    color: rgb(255 245 247);
   }
 
   .product-card:hover .product-divider {
@@ -232,8 +232,8 @@
   .product-card:hover .btn-primary,
   .shop-card:hover .btn-primary {
     background: rgb(255 247 249);
-    color: rgb(var(--brand-900));
-    box-shadow: 0 16px 30px rgba(46, 47, 49, 0.18);
+    color: rgb(var(--brand-700));
+    box-shadow: 0 16px 30px rgba(var(--brand-900), 0.2);
   }
 
   .product-card:hover .product-content {
@@ -247,7 +247,7 @@
 
   .product-card:hover .product-media img,
   .product-card:hover .product-media > div {
-    filter: saturate(0.7) brightness(0.45);
+    filter: saturate(0.72) brightness(0.42);
   }
 
   .product-card:hover .product-badge {
