@@ -79,7 +79,7 @@
     background:
       radial-gradient(circle at top right, rgba(var(--brand-300), 0.3), transparent 32%),
       radial-gradient(circle at bottom left, rgba(var(--brand-400), 0.28), transparent 40%),
-      linear-gradient(155deg, rgba(var(--brand-500), 0.98), rgba(var(--brand-700), 0.96) 55%, rgba(var(--brand-900), 0.96));
+      linear-gradient(155deg, rgba(var(--brand-400), 0.96), rgba(var(--brand-500), 0.96) 46%, rgba(var(--brand-700), 0.94));
   }
 
   .shop-metric {
@@ -175,16 +175,16 @@
 
   .product-card:hover {
     transform: scale3d(1.01, 1.01, 1.01);
-    background: linear-gradient(155deg, rgb(var(--brand-500)), rgb(var(--brand-700)) 55%, rgb(var(--brand-900)));
+    background: linear-gradient(155deg, rgb(var(--brand-400)), rgb(var(--brand-500)) 46%, rgb(var(--brand-700)));
     border-color: rgba(var(--brand-100), 0);
-    box-shadow: 0 18px 36px rgba(var(--brand-700), 0.18);
+    box-shadow: 0 18px 36px rgba(var(--brand-600), 0.18);
   }
 
   .shop-card:hover {
     transform: scale3d(1.01, 1.01, 1.01);
-    background: linear-gradient(155deg, rgb(var(--brand-500)), rgb(var(--brand-700)) 55%, rgb(var(--brand-900)));
+    background: linear-gradient(155deg, rgb(var(--brand-400)), rgb(var(--brand-500)) 46%, rgb(var(--brand-700)));
     border-color: rgba(var(--brand-100), 0);
-    box-shadow: 0 18px 36px rgba(var(--brand-700), 0.18);
+    box-shadow: 0 18px 36px rgba(var(--brand-600), 0.18);
   }
 
   .product-card:hover::after,
@@ -233,7 +233,7 @@
   .shop-card:hover .btn-primary {
     background: rgb(255 247 249);
     color: rgb(var(--brand-700));
-    box-shadow: 0 16px 30px rgba(var(--brand-900), 0.2);
+    box-shadow: 0 14px 26px rgba(var(--brand-700), 0.16);
   }
 
   .product-card:hover .product-content {
