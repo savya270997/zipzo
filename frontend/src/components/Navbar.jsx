@@ -204,33 +204,6 @@ const Navbar = ({ cartCount }) => {
         </div>
       ) : null}
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-100/80 bg-[rgba(255,247,249,0.96)] px-4 pb-[max(env(safe-area-inset-bottom),0.75rem)] pt-3 backdrop-blur md:hidden dark:border-slate-800 dark:bg-[rgba(17,31,53,0.96)]">
-        <div className="mx-auto grid max-w-md grid-cols-4 gap-2">
-          {mobileNavItems.map(({ to, label, icon: Icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) =>
-                `flex flex-col items-center justify-center rounded-2xl px-2 py-2 text-[11px] font-semibold transition ${
-                  isActive
-                    ? "bg-brand-500 text-white shadow-[0_10px_24px_rgba(208,39,82,0.2)]"
-                    : "text-slate-500 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                }`
-              }
-            >
-              <Icon className="mb-1 h-4 w-4" />
-              {label}
-            </NavLink>
-          ))}
-          <button
-            className="flex flex-col items-center justify-center rounded-2xl px-2 py-2 text-[11px] font-semibold text-slate-500 transition hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800"
-            onClick={() => navigate(isAuthenticated ? "/profile" : "/auth")}
-          >
-            <UserCircle2 className="mb-1 h-4 w-4" />
-            Account
-          </button>
-        </div>
-      </div>
     </header>
   );
 };
