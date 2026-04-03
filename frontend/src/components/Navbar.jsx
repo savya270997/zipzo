@@ -7,8 +7,8 @@ import { useAuth } from "../context/AuthContext";
 const navLinkClass = ({ isActive }) =>
   `rounded-full px-4 py-2 text-sm font-medium transition ${
     isActive
-      ? "bg-brand-500 text-white"
-      : "text-slate-600 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-300"
+      ? "bg-brand-500 text-white shadow-[0_10px_24px_rgba(208,39,82,0.24)]"
+      : "text-slate-600 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-brand-200"
   }`;
 
 const Navbar = ({ cartCount }) => {
@@ -19,7 +19,7 @@ const Navbar = ({ cartCount }) => {
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/50 bg-amber-50/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
+    <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-[rgba(255,247,249,0.88)] backdrop-blur dark:border-slate-800 dark:bg-[rgba(17,31,53,0.82)]">
       <div className="shell flex items-center justify-between gap-4 py-4">
         <Link to="/" className="flex items-center gap-3">
           <div className="rounded-2xl bg-brand-500 p-2 text-white shadow-glow">
