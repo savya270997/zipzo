@@ -117,20 +117,22 @@ const Navbar = ({ cartCount }) => {
             aria-label="Close menu overlay"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <aside className="fixed inset-y-0 left-0 z-50 flex w-[86vw] max-w-sm flex-col border-r border-brand-100/70 bg-white px-5 pb-6 pt-5 shadow-2xl dark:border-slate-800 dark:bg-slate-950">
-            <div className="flex items-center justify-between">
-              <Link to="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
-                <div className="rounded-2xl bg-brand-500 p-2 text-white shadow-glow">
-                  <Truck className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-display text-lg font-bold">Zipzo</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Essentials In Minutes</p>
-                </div>
-              </Link>
-              <button className="btn-secondary px-3 py-3" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
-                <X className="h-4 w-4" />
-              </button>
+          <aside className="fixed inset-y-0 left-0 z-50 flex h-screen w-[86vw] max-w-sm flex-col overflow-y-auto border-r border-brand-100/70 bg-[rgb(var(--surface-soft))] px-5 pb-6 pt-5 shadow-[0_24px_80px_rgba(17,31,53,0.18)] dark:border-slate-800 dark:bg-slate-950">
+            <div className="rounded-[28px] border border-brand-100/80 bg-white px-4 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="flex items-center justify-between">
+                <Link to="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="rounded-2xl bg-brand-500 p-2 text-white shadow-glow">
+                    <Truck className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-display text-lg font-bold">Zipzo</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Essentials In Minutes</p>
+                  </div>
+                </Link>
+                <button className="btn-secondary px-3 py-3" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
 
             <button
@@ -151,7 +153,8 @@ const Navbar = ({ cartCount }) => {
               </div>
             </button>
 
-            <nav className="mt-6 space-y-2">
+            <nav className="mt-6 rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="space-y-2">
               {mobileNavItems.map(({ to, label, icon: Icon }) => (
                 <NavLink
                   key={to}
@@ -169,9 +172,11 @@ const Navbar = ({ cartCount }) => {
                   {label}
                 </NavLink>
               ))}
+              </div>
             </nav>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6 rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="grid grid-cols-2 gap-3">
               <button className="btn-secondary justify-center" onClick={toggleTheme}>
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
@@ -179,6 +184,7 @@ const Navbar = ({ cartCount }) => {
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount}
               </Link>
+              </div>
             </div>
 
             <div className="mt-auto space-y-2 pt-8">
