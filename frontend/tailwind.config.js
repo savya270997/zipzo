@@ -29,7 +29,7 @@ export default {
       },
       backgroundImage: {
         mesh:
-          "radial-gradient(circle at 15% 20%, rgba(var(--brand-300), 0.18), transparent 32%), radial-gradient(circle at 80% 75%, rgba(var(--brand-200), 0.22), transparent 34%)"
+          "radial-gradient(circle at 15% 20%, rgba(var(--brand-400), 0.16), transparent 32%), radial-gradient(circle at 80% 75%, rgba(var(--brand-200), 0.24), transparent 34%), radial-gradient(circle at 60% 12%, rgba(var(--brand-900), 0.06), transparent 26%)"
       }
     }
   },
