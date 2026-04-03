@@ -124,7 +124,7 @@ const App = () => {
   );
 
   return (
-    <div className="pb-28">
+    <div className="pb-32 md:pb-28">
       <Navbar cartCount={cartItemCount} />
       <Routes>
         <Route path="/" element={<HomePage onAddToCart={handleAddToCart} recommendations={recommendations} rewards={rewards} />} />
