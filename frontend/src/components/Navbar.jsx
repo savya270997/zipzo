@@ -133,17 +133,23 @@ const Navbar = ({ cartCount }) => {
               </button>
             </div>
 
-            <div className="mt-6 flex items-center gap-3 rounded-[24px] border border-brand-100/70 bg-brand-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
+            <button
+              className="mt-6 flex w-full items-center gap-3 rounded-[24px] border border-brand-100 bg-white p-4 text-left shadow-sm transition hover:border-brand-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                navigate(isAuthenticated ? "/profile" : "/auth");
+              }}
+            >
               <div className="rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40">
                 <UserCircle2 className="h-5 w-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="font-semibold text-slate-800 dark:text-slate-100">{isAuthenticated ? firstName : "Guest"}</p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  {isAuthenticated ? "Manage your account and orders" : "Login to unlock your account"}
+                  {isAuthenticated ? "Open account settings" : "Login to unlock your account"}
                 </p>
               </div>
-            </div>
+            </button>
 
             <nav className="mt-6 space-y-2">
               {mobileNavItems.map(({ to, label, icon: Icon }) => (
@@ -176,16 +182,6 @@ const Navbar = ({ cartCount }) => {
             </div>
 
             <div className="mt-auto space-y-2 pt-8">
-              <button
-                className="btn-secondary w-full justify-start gap-3"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  navigate(isAuthenticated ? "/profile" : "/auth");
-                }}
-              >
-                <UserCircle2 className="h-4 w-4" />
-                {isAuthenticated ? "Manage account" : "Login"}
-              </button>
               {isAuthenticated ? (
                 <button
                   className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-slate-800"
