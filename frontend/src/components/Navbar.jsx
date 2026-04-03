@@ -117,7 +117,7 @@ const Navbar = ({ cartCount }) => {
             aria-label="Close menu overlay"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <aside className="fixed inset-y-0 left-0 z-50 flex w-[86vw] max-w-sm flex-col border-r border-brand-100/70 bg-[rgba(255,247,249,0.96)] px-5 pb-6 pt-5 shadow-2xl dark:border-slate-800 dark:bg-[rgba(17,31,53,0.96)]">
+          <aside className="fixed inset-y-0 left-0 z-50 flex w-[86vw] max-w-sm flex-col border-r border-brand-100/70 bg-white px-5 pb-6 pt-5 shadow-2xl dark:border-slate-800 dark:bg-slate-950">
             <div className="flex items-center justify-between">
               <Link to="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
                 <div className="rounded-2xl bg-brand-500 p-2 text-white shadow-glow">
@@ -133,7 +133,7 @@ const Navbar = ({ cartCount }) => {
               </button>
             </div>
 
-            <div className="mt-6 flex items-center gap-3 rounded-[24px] border border-brand-100/70 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900/80">
+            <div className="mt-6 flex items-center gap-3 rounded-[24px] border border-brand-100/70 bg-brand-50/70 p-4 dark:border-slate-800 dark:bg-slate-900">
               <div className="rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40">
                 <UserCircle2 className="h-5 w-5" />
               </div>
