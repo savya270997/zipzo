@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ChevronDown, Home, LogOut, Menu, Moon, ShoppingBag, ShoppingCart, Store, Sun, Truck, UserCircle2, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
@@ -22,8 +22,28 @@ const Navbar = ({ cartCount }) => {
   const { isAuthenticated, logout, user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const navigate = useNavigate();
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (mobileMenuOpen) {
+      requestAnimationFrame(() => setMobileMenuVisible(true));
+    } else {
+      setMobileMenuVisible(false);
+    }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => {
+    setMobileMenuVisible(false);
+    window.setTimeout(() => setMobileMenuOpen(false), 220);
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-[rgba(255,247,249,0.88)] backdrop-blur dark:border-slate-800 dark:bg-[rgba(17,31,53,0.82)]">
@@ -113,14 +133,20 @@ const Navbar = ({ cartCount }) => {
       {mobileMenuOpen ? (
         <div className="md:hidden">
           <button
-            className="fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-[1px]"
+            className={`fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-[1px] transition-opacity duration-200 ${
+              mobileMenuVisible ? "opacity-100" : "opacity-0"
+            }`}
             aria-label="Close menu overlay"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={closeMobileMenu}
           />
-          <aside className="fixed inset-y-0 left-0 z-50 flex h-screen w-[86vw] max-w-sm flex-col overflow-y-auto border-r border-brand-100/70 bg-[rgb(var(--surface-soft))] px-5 pb-6 pt-5 shadow-[0_24px_80px_rgba(17,31,53,0.18)] dark:border-slate-800 dark:bg-slate-950">
+          <aside
+            className={`fixed inset-y-0 left-0 z-50 flex h-screen w-[86vw] max-w-sm flex-col overflow-y-auto border-r border-brand-100/70 bg-[rgb(var(--surface-soft))] px-5 pb-6 pt-5 shadow-[0_24px_80px_rgba(17,31,53,0.18)] transition-transform duration-300 ease-out dark:border-slate-800 dark:bg-slate-950 ${
+              mobileMenuVisible ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
             <div className="rounded-[28px] border border-brand-100/80 bg-white px-4 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
+                <Link to="/" className="flex items-center gap-3" onClick={closeMobileMenu}>
                   <div className="rounded-2xl bg-brand-500 p-2 text-white shadow-glow">
                     <Truck className="h-5 w-5" />
                   </div>
@@ -129,7 +155,7 @@ const Navbar = ({ cartCount }) => {
                     <p className="text-xs text-slate-500 dark:text-slate-400">Essentials In Minutes</p>
                   </div>
                 </Link>
-                <button className="btn-secondary px-3 py-3" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+                <button className="btn-secondary px-3 py-3" onClick={closeMobileMenu} aria-label="Close menu">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -138,7 +164,7 @@ const Navbar = ({ cartCount }) => {
             <button
               className="mt-6 flex w-full items-center gap-3 rounded-[24px] border border-brand-100 bg-white p-4 text-left shadow-sm transition hover:border-brand-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
               onClick={() => {
-                setMobileMenuOpen(false);
+                closeMobileMenu();
                 navigate(isAuthenticated ? "/profile" : "/auth");
               }}
             >
@@ -159,7 +185,7 @@ const Navbar = ({ cartCount }) => {
                 <NavLink
                   key={to}
                   to={to}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={closeMobileMenu}
                   className={({ isActive }) =>
                     `flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition ${
                       isActive
@@ -180,7 +206,7 @@ const Navbar = ({ cartCount }) => {
               <button className="btn-secondary justify-center" onClick={toggleTheme}>
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
-              <Link to="/cart" className="btn-secondary justify-center" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/cart" className="btn-secondary justify-center" onClick={closeMobileMenu}>
                 <ShoppingCart className="h-4 w-4" />
                 {cartCount}
               </Link>
@@ -192,7 +218,7 @@ const Navbar = ({ cartCount }) => {
                 <button
                   className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-slate-800"
                   onClick={() => {
-                    setMobileMenuOpen(false);
+                    closeMobileMenu();
                     logout();
                     navigate("/");
                   }}
