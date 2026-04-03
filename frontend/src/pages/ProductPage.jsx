@@ -36,10 +36,16 @@ const ProductPage = ({ onAddToCart, onSubscribe }) => {
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             <span className="rounded-full bg-brand-50 px-4 py-2 text-brand-700 dark:bg-brand-900/40 dark:text-brand-100">{product.weight}</span>
             <span className="rounded-full bg-slate-100 px-4 py-2 dark:bg-slate-800">{product.brand}</span>
-            {product.shop ? (
-              <Link to={`/shops/${product.shop.id}`} className="rounded-full bg-amber-50 px-4 py-2 font-medium text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
-                Sold by {product.shop.name}
-              </Link>
+            {product.shop?.name ? (
+              product.shop?.id ? (
+                <Link to={`/shops/${product.shop.id}`} className="rounded-full bg-amber-50 px-4 py-2 font-medium text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
+                  Sold by {product.shop.name}
+                </Link>
+              ) : (
+                <span className="rounded-full bg-amber-50 px-4 py-2 font-medium text-amber-800 dark:bg-amber-500/20 dark:text-amber-200">
+                  Sold by {product.shop.name}
+                </span>
+              )
             ) : null}
             <span className="rounded-full bg-emerald-100 px-4 py-2 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
               {product.stock > 0 ? "In stock" : "Out of stock"}

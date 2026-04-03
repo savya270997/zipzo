@@ -4,6 +4,7 @@ import api from "./api/client";
 import Navbar from "./components/Navbar";
 import CartDock from "./components/CartDock";
 import PrivateRoute from "./components/PrivateRoute";
+import RoleRoute from "./components/RoleRoute";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import CatalogPage from "./pages/CatalogPage";
@@ -17,6 +18,7 @@ import RewardsPage from "./pages/RewardsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ShopsPage from "./pages/ShopsPage";
 import ShopDetailPage from "./pages/ShopDetailPage";
+import SellerDashboardPage from "./pages/SellerDashboardPage";
 import { useAuth } from "./context/AuthContext";
 
 const emptyCart = { items: [] };
@@ -130,6 +132,14 @@ const App = () => {
         <Route path="/" element={<HomePage onAddToCart={handleAddToCart} recommendations={recommendations} rewards={rewards} />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/catalog" element={<CatalogPage onAddToCart={handleAddToCart} />} />
+        <Route
+          path="/seller"
+          element={
+            <RoleRoute roles={["seller"]}>
+              <SellerDashboardPage />
+            </RoleRoute>
+          }
+        />
         <Route
           path="/shops"
           element={

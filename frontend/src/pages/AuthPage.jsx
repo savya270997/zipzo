@@ -47,8 +47,8 @@ const AuthPage = () => {
               role: form.role
             };
 
-      await login(payload, mode === "login" ? "login" : "signup");
-      navigate("/");
+      const user = await login(payload, mode === "login" ? "login" : "signup");
+      navigate(user?.role === "seller" ? "/seller" : "/");
     } catch (err) {
       setError(err.response?.data?.message || "Unable to continue.");
     }

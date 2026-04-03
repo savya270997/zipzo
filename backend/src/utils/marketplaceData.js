@@ -45,6 +45,40 @@ const buildComparisons = (product, primaryIndex) => {
 };
 
 export const decorateProductWithMarketplace = (product) => {
+  if (product?.seller || product?.shopName) {
+    const sellerShop = {
+      id: null,
+      name: product.shopName || `${product.sellerName || "Seller"}'s Store`,
+      city: "Seller listed",
+      rating: product.rating || 4.2,
+      etaMinutes: 24,
+      since: new Date(product.createdAt || Date.now()).getFullYear(),
+      tags: ["Seller listed", "Pending admin review"],
+      offer: product.approvalStatus === "approved" ? "Live in marketplace" : "Seller managed listing"
+    };
+
+    const sellerComparisons = [
+      {
+        shopId: null,
+        shopName: sellerShop.name,
+        price: product.price,
+        deliveryEta: "Seller managed",
+        rating: sellerShop.rating
+      }
+    ];
+
+    return {
+      ...product,
+      shop: sellerShop,
+      sellerComparisons,
+      priceComparisons: sellerComparisons.map((item) => ({
+        store: item.shopName,
+        price: item.price,
+        deliveryEta: item.deliveryEta
+      }))
+    };
+  }
+
   const remainingShops = partnerShops.filter((shop) => shop.id !== DEMO_SHOP_ID);
   const productId = String(product?._id ?? "");
   const isDemoProduct = isDemoStoreProduct(product);

@@ -11,12 +11,6 @@ const navLinkClass = ({ isActive }) =>
       : "text-slate-600 hover:bg-brand-50 hover:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-brand-200"
   }`;
 
-const mobileNavItems = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/catalog", label: "Catalog", icon: ShoppingBag },
-  { to: "/shops", label: "Shops", icon: Store }
-];
-
 const Navbar = ({ cartCount }) => {
   const { toggleTheme, theme } = useTheme();
   const { isAuthenticated, logout, user } = useAuth();
@@ -25,19 +19,26 @@ const Navbar = ({ cartCount }) => {
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
   const navigate = useNavigate();
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
+  const isSeller = user?.role === "seller";
+  const mobileNavItems = isSeller
+    ? [
+        { to: "/", label: "Home", icon: Home },
+        { to: "/seller", label: "Seller", icon: Store },
+        { to: "/catalog", label: "Catalog", icon: ShoppingBag }
+      ]
+    : [
+        { to: "/", label: "Home", icon: Home },
+        { to: "/catalog", label: "Catalog", icon: ShoppingBag },
+        { to: "/shops", label: "Shops", icon: Store }
+      ];
 
   useEffect(() => {
-    let timeoutId;
-
     if (mobileMenuOpen) {
       requestAnimationFrame(() => setMobileMenuVisible(true));
     } else {
       setMobileMenuVisible(false);
     }
 
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
   }, [mobileMenuOpen]);
 
   const closeMobileMenu = () => {
@@ -62,12 +63,19 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/" className={navLinkClass}>
             Home
           </NavLink>
+          {isSeller ? (
+            <NavLink to="/seller" className={navLinkClass}>
+              Seller
+            </NavLink>
+          ) : null}
           <NavLink to="/catalog" className={navLinkClass}>
             Catalog
           </NavLink>
-          <NavLink to="/shops" className={navLinkClass}>
-            Shops
-          </NavLink>
+          {!isSeller ? (
+            <NavLink to="/shops" className={navLinkClass}>
+              Shops
+            </NavLink>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">

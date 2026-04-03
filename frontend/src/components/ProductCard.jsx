@@ -31,10 +31,16 @@ const ProductCard = ({ product, onAdd, style }) => (
       <div className="flex min-h-[48px] items-start justify-between gap-4 text-sm">
         <div className="min-w-0">
           <p className="product-subtle truncate text-slate-500 dark:text-slate-400">{product.brand}</p>
-          {product.shop ? (
-            <Link to={`/shops/${product.shop.id}`} className="product-subtle mt-1 inline-block text-xs font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline dark:text-brand-300">
-              Sold by {product.shop.name}
-            </Link>
+          {product.shop?.name ? (
+            product.shop?.id ? (
+              <Link to={`/shops/${product.shop.id}`} className="product-subtle mt-1 inline-block text-xs font-medium text-brand-600 transition-colors hover:text-brand-700 hover:underline dark:text-brand-300">
+                Sold by {product.shop.name}
+              </Link>
+            ) : (
+              <p className="product-subtle mt-1 inline-block text-xs font-medium text-brand-600 dark:text-brand-300">
+                Sold by {product.shop.name}
+              </p>
+            )
           ) : null}
         </div>
         <span className="meta-pill meta-pill-accent shrink-0">

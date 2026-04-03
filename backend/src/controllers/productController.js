@@ -6,6 +6,8 @@ import { decorateProductWithMarketplace, decorateProductsWithMarketplace } from 
 
 const isDemoMode = () => process.env.DEMO_MODE === "true";
 const toPlainProduct = (product) => (product?.toObject ? product.toObject() : product);
+const isPubliclyVisible = (product) =>
+  !product?.seller || ["approved", undefined, null, ""].includes(product.approvalStatus);
 
 const filterCatalog = (products, query) => {
   const { search, category, brand, minPrice, maxPrice, featured } = query;
@@ -74,7 +76,10 @@ export const getProducts = async (req, res) => {
   const categories = await Product.distinct("category");
   const brands = await Product.distinct("brand");
 
-  res.json({ products: decorateProductsWithMarketplace(products.map(toPlainProduct)), filters: { categories, brands } });
+  res.json({
+    products: decorateProductsWithMarketplace(products.map(toPlainProduct).filter(isPubliclyVisible)),
+    filters: { categories, brands }
+  });
 };
 
 export const getProductById = async (req, res) => {
@@ -104,7 +109,12 @@ export const getProductById = async (req, res) => {
     return res.status(404).json({ message: "Product not found" });
   }
 
-  res.json(decorateProductWithMarketplace(product.toObject ? product.toObject() : product));
+  const plainProduct = product.toObject ? product.toObject() : product;
+  if (!isPubliclyVisible(plainProduct)) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  res.json(decorateProductWithMarketplace(plainProduct));
 };
 
 export const getFeaturedProducts = async (_req, res) => {
@@ -118,5 +128,9 @@ export const getFeaturedProducts = async (_req, res) => {
   }
 
   const products = await Product.find({ isFeatured: true }).limit(8);
-  res.json(decorateProductsWithMarketplace(products.map((product) => (product.toObject ? product.toObject() : product))));
+  res.json(
+    decorateProductsWithMarketplace(
+      products.map((product) => (product.toObject ? product.toObject() : product)).filter(isPubliclyVisible)
+    )
+  );
 };
