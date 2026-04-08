@@ -16,6 +16,8 @@ const normalizeTags = (tags = []) =>
     .map((tag) => `${tag || ""}`.trim())
     .filter(Boolean);
 
+const buildUploadUrl = (req, relativePath) => `${req.protocol}://${req.get("host")}${relativePath}`;
+
 const sanitizeSellerProduct = (product) => {
   const plain = product?.toObject ? product.toObject() : product;
 
@@ -52,6 +54,17 @@ const validateProductInput = (payload) => {
   }
 
   return null;
+};
+
+export const uploadSellerImages = async (req, res) => {
+  const files = (req.files || []).map((file) => ({
+    name: file.originalname,
+    size: file.size,
+    mimeType: file.mimetype,
+    url: buildUploadUrl(req, `/uploads/seller-products/${file.filename}`)
+  }));
+
+  res.status(201).json({ files });
 };
 
 export const getSellerDashboard = async (req, res) => {
@@ -102,7 +115,7 @@ export const createSellerProduct = async (req, res) => {
     images,
     image: images[0] || SELLER_IMAGE_FALLBACK,
     approvalStatus: req.body.approvalStatus || "draft",
-    approvalNotes: ""
+    approvalNotes: req.body.approvalStatus === "pending_approval" ? "Awaiting admin review." : ""
   });
 
   res.status(201).json(sanitizeSellerProduct(product));
@@ -140,7 +153,7 @@ export const updateSellerProduct = async (req, res) => {
   });
 
   if (req.body.approvalStatus === "pending_approval") {
-    product.approvalNotes = "";
+    product.approvalNotes = "Awaiting admin review.";
   }
 
   await product.save();

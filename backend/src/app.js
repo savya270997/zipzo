@@ -2,6 +2,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
@@ -15,6 +17,8 @@ import sellerRoutes from "./routes/sellerRoutes.js";
 dotenv.config();
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const allowedOrigins = new Set([
   process.env.CLIENT_URL,
@@ -38,6 +42,7 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 app.get("/", (_req, res) => {
   res.json({
@@ -63,7 +68,8 @@ app.use("/api/seller", sellerRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);
-  res.status(500).json({ message: err.message || "Server error" });
+  const statusCode = err.name === "MulterError" || err.message === "Only image files are allowed" ? 400 : 500;
+  res.status(statusCode).json({ message: err.message || "Server error" });
 });
 
 export default app;
