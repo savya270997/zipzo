@@ -115,7 +115,9 @@ export const createSellerProduct = async (req, res) => {
     images,
     image: images[0] || SELLER_IMAGE_FALLBACK,
     approvalStatus: req.body.approvalStatus || "draft",
-    approvalNotes: req.body.approvalStatus === "pending_approval" ? "Awaiting admin review." : ""
+    approvalNotes: req.body.approvalStatus === "pending_approval" ? "Awaiting admin review." : "",
+    reviewedBy: null,
+    reviewedAt: null
   });
 
   res.status(201).json(sanitizeSellerProduct(product));
@@ -154,6 +156,8 @@ export const updateSellerProduct = async (req, res) => {
 
   if (req.body.approvalStatus === "pending_approval") {
     product.approvalNotes = "Awaiting admin review.";
+    product.reviewedBy = null;
+    product.reviewedAt = null;
   }
 
   await product.save();

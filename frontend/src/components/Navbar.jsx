@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ChevronDown, Home, LogOut, Menu, Moon, ShoppingBag, ShoppingCart, Store, Sun, Truck, UserCircle2, X } from "lucide-react";
+import { ChevronDown, Home, LogOut, Menu, Moon, ShieldCheck, ShoppingBag, ShoppingCart, Store, Sun, Truck, UserCircle2, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -20,7 +20,14 @@ const Navbar = ({ cartCount }) => {
   const navigate = useNavigate();
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
   const isSeller = user?.role === "seller";
-  const mobileNavItems = isSeller
+  const isAdmin = user?.role === "admin";
+  const mobileNavItems = isAdmin
+    ? [
+        { to: "/", label: "Home", icon: Home },
+        { to: "/admin", label: "Admin", icon: ShieldCheck },
+        { to: "/catalog", label: "Catalog", icon: ShoppingBag }
+      ]
+    : isSeller
     ? [
         { to: "/", label: "Home", icon: Home },
         { to: "/seller", label: "Seller", icon: Store },
@@ -63,6 +70,11 @@ const Navbar = ({ cartCount }) => {
           <NavLink to="/" className={navLinkClass}>
             Home
           </NavLink>
+          {isAdmin ? (
+            <NavLink to="/admin" className={navLinkClass}>
+              Admin
+            </NavLink>
+          ) : null}
           {isSeller ? (
             <NavLink to="/seller" className={navLinkClass}>
               Seller
@@ -102,11 +114,11 @@ const Navbar = ({ cartCount }) => {
                     className="flex w-full items-center gap-2 rounded-xl px-3 py-2 hover:bg-brand-50 dark:hover:bg-slate-800"
                     onClick={() => {
                       setMenuOpen(false);
-                      navigate("/profile");
+                      navigate(isAdmin ? "/admin" : "/profile");
                     }}
                   >
                     <UserCircle2 className="h-4 w-4" />
-                    Manage account
+                    {isAdmin ? "Open admin" : "Manage account"}
                   </button>
                   <button
                     className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-rose-600 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-slate-800"
@@ -173,7 +185,7 @@ const Navbar = ({ cartCount }) => {
               className="mt-6 flex w-full items-center gap-3 rounded-[24px] border border-brand-100 bg-white p-4 text-left shadow-sm transition hover:border-brand-200 hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
               onClick={() => {
                 closeMobileMenu();
-                navigate(isAuthenticated ? "/profile" : "/auth");
+                navigate(isAuthenticated ? (isAdmin ? "/admin" : "/profile") : "/auth");
               }}
             >
               <div className="rounded-2xl bg-brand-50 p-3 text-brand-700 dark:bg-brand-900/40">

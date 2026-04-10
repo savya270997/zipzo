@@ -48,7 +48,7 @@ const AuthPage = () => {
             };
 
       const user = await login(payload, mode === "login" ? "login" : "signup");
-      navigate(user?.role === "seller" ? "/seller" : "/");
+      navigate(user?.role === "admin" ? "/admin" : user?.role === "seller" ? "/seller" : "/");
     } catch (err) {
       setError(err.response?.data?.message || "Unable to continue.");
     }
@@ -158,8 +158,8 @@ const AuthPage = () => {
             value={form.password}
             onChange={(event) => setForm({ ...form, password: event.target.value })}
             required
-            minLength={8}
-            title="8+ chars with upper, lower, number"
+            minLength={mode === "signup" ? 8 : undefined}
+            title={mode === "signup" ? "8+ chars with upper, lower, number" : undefined}
           />
           {mode === "signup" ? (
             <input

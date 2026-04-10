@@ -33,6 +33,8 @@ const productSchema = new mongoose.Schema(
       default: "approved"
     },
     approvalNotes: { type: String, default: "" },
+    reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    reviewedAt: { type: Date, default: null },
     tags: [{ type: String }],
     priceComparisons: [comparisonSchema]
   },

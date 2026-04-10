@@ -13,6 +13,7 @@ import subscriptionRoutes from "./routes/subscriptionRoutes.js";
 import recommendationRoutes from "./routes/recommendationRoutes.js";
 import shopRoutes from "./routes/shopRoutes.js";
 import sellerRoutes from "./routes/sellerRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -65,6 +66,7 @@ app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/recommendations", recommendationRoutes);
 app.use("/api/shops", shopRoutes);
 app.use("/api/seller", sellerRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

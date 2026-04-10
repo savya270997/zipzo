@@ -19,6 +19,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ShopsPage from "./pages/ShopsPage";
 import ShopDetailPage from "./pages/ShopDetailPage";
 import SellerDashboardPage from "./pages/SellerDashboardPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import { useAuth } from "./context/AuthContext";
 
 const emptyCart = { items: [] };
@@ -137,6 +138,14 @@ const App = () => {
           element={
             <RoleRoute roles={["seller"]}>
               <SellerDashboardPage />
+            </RoleRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RoleRoute roles={["admin"]}>
+              <AdminDashboardPage />
             </RoleRoute>
           }
         />
