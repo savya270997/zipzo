@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ChevronDown, Home, LogOut, Menu, Moon, ShieldCheck, ShoppingBag, ShoppingCart, Store, Sun, Truck, UserCircle2, X } from "lucide-react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { ChevronDown, Home, LogOut, Menu, Moon, Search, ShieldCheck, ShoppingBag, ShoppingCart, Store, Sun, Truck, UserCircle2, X } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -17,7 +17,9 @@ const Navbar = ({ cartCount }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
   const isSeller = user?.role === "seller";
   const isAdmin = user?.role === "admin";
@@ -48,9 +50,29 @@ const Navbar = ({ cartCount }) => {
 
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearchTerm(params.get("search") || "");
+  }, [location.pathname, location.search]);
+
   const closeMobileMenu = () => {
     setMobileMenuVisible(false);
     window.setTimeout(() => setMobileMenuOpen(false), 220);
+  };
+
+  const submitSearch = (event, { closeDrawer = false } = {}) => {
+    event.preventDefault();
+    const nextSearch = searchTerm.trim();
+    const params = new URLSearchParams();
+
+    if (nextSearch) {
+      params.set("search", nextSearch);
+    }
+
+    navigate(`/catalog${params.toString() ? `?${params.toString()}` : ""}`);
+    if (closeDrawer) {
+      closeMobileMenu();
+    }
   };
 
   return (
@@ -89,6 +111,19 @@ const Navbar = ({ cartCount }) => {
             </NavLink>
           ) : null}
         </nav>
+
+        <form className="relative hidden max-w-xl flex-1 xl:block" onSubmit={submitSearch}>
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input
+            className="input h-12 pl-11 pr-24"
+            placeholder="Search products, brands, categories, or sellers"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
+          <button className="btn-primary absolute right-1.5 top-1.5 px-4 py-2.5 text-sm" type="submit">
+            Search
+          </button>
+        </form>
 
         <div className="flex items-center gap-2">
           <button className="btn-secondary hidden px-3 py-3 md:inline-flex" onClick={toggleTheme}>
@@ -198,6 +233,19 @@ const Navbar = ({ cartCount }) => {
                 </p>
               </div>
             </button>
+
+            <form className="mt-6 relative" onSubmit={(event) => submitSearch(event, { closeDrawer: true })}>
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                className="input bg-white pl-11 pr-24 dark:bg-slate-900"
+                placeholder="Search the marketplace"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+              />
+              <button className="btn-primary absolute right-1.5 top-1.5 px-4 py-2 text-sm" type="submit">
+                Search
+              </button>
+            </form>
 
             <nav className="mt-6 rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
               <div className="space-y-2">

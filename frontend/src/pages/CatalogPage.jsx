@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Mic, Search, SlidersHorizontal } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/client";
 import ProductCard from "../components/ProductCard";
 import { startVoiceSearch } from "../utils/voice";
 
 const CatalogPage = ({ onAddToCart }) => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState({ categories: [], brands: [] });
   const [query, setQuery] = useState({
@@ -19,12 +20,26 @@ const CatalogPage = ({ onAddToCart }) => {
   const [voiceError, setVoiceError] = useState("");
 
   useEffect(() => {
-    setQuery((current) => ({
-      ...current,
-      search: searchParams.get("search") || current.search,
-      category: searchParams.get("category") || "",
-      brand: searchParams.get("brand") || ""
-    }));
+    setQuery((current) => {
+      const nextSearch = searchParams.get("search") || "";
+      const nextCategory = searchParams.get("category") || "";
+      const nextBrand = searchParams.get("brand") || "";
+
+      if (
+        current.search === nextSearch &&
+        current.category === nextCategory &&
+        current.brand === nextBrand
+      ) {
+        return current;
+      }
+
+      return {
+        ...current,
+        search: nextSearch,
+        category: nextCategory,
+        brand: nextBrand
+      };
+    });
   }, [searchParams]);
 
   useEffect(() => {
@@ -34,6 +49,17 @@ const CatalogPage = ({ onAddToCart }) => {
       setFilters(data.filters);
     });
   }, [query]);
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (query.search) params.set("search", query.search);
+    if (query.category) params.set("category", query.category);
+    if (query.brand) params.set("brand", query.brand);
+
+    const nextUrl = `/catalog${params.toString() ? `?${params.toString()}` : ""}`;
+    navigate(nextUrl, { replace: true });
+  }, [navigate, query.search, query.category, query.brand]);
 
   return (
     <div className="shell space-y-8 py-10">
