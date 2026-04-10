@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["customer", "seller", "admin"], default: "customer" },
+    accountStatus: { type: String, enum: ["active", "suspended"], default: "active" },
+    adminNotes: { type: String, default: "" },
     loyaltyPoints: { type: Number, default: 0 },
     addresses: [addressSchema],
     purchasePreferences: [purchasePreferenceSchema]

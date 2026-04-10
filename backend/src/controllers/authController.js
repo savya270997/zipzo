@@ -13,6 +13,7 @@ const sanitizeUser = (user) => ({
   name: user.name,
   email: user.email,
   role: user.role,
+  accountStatus: user.accountStatus || "active",
   loyaltyPoints: user.loyaltyPoints,
   addresses: user.addresses
 });
@@ -111,6 +112,10 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    if (user.accountStatus === "suspended") {
+      return res.status(403).json({ message: "This account has been suspended. Contact support." });
+    }
+
     return res.json({
       token: generateToken(user._id),
       user: sanitizeUser(user)
@@ -124,6 +129,10 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    if (user.accountStatus === "suspended") {
+      return res.status(403).json({ message: "This account has been suspended. Contact support." });
+    }
+
     return res.json({
       token: generateToken(user._id),
       user: sanitizeUser(user)
@@ -134,6 +143,10 @@ export const login = async (req, res) => {
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(400).json({ message: "Invalid credentials" });
+  }
+
+  if (user.accountStatus === "suspended") {
+    return res.status(403).json({ message: "This account has been suspended. Contact support." });
   }
 
   res.json({
