@@ -226,6 +226,8 @@ const Navbar = ({ cartCount }) => {
   );
 
   const closeMobileMenu = () => {
+    setMobileSearchOpen(false);
+    setSearchOpen(false);
     setMobileMenuVisible(false);
     window.setTimeout(() => setMobileMenuOpen(false), 220);
   };
@@ -469,7 +471,10 @@ const Navbar = ({ cartCount }) => {
           )}
           <button
             className="btn-secondary px-3 py-3 md:hidden"
-            onClick={() => setMobileMenuOpen(true)}
+            onClick={() => {
+              setMobileSearchOpen(false);
+              setMobileMenuOpen(true);
+            }}
             aria-label="Open menu"
           >
             <Menu className="h-4 w-4" />
@@ -526,7 +531,7 @@ const Navbar = ({ cartCount }) => {
               </div>
             </button>
 
-            <div className="mt-6" ref={searchRef}>
+            <div className="mt-6">
               <form className="relative" onSubmit={(event) => submitSearch(event, { closeDrawer: true })}>
                 <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 <input
