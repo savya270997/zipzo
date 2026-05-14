@@ -350,7 +350,7 @@ const Navbar = ({ cartCount }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="relative md:hidden" ref={mobileSearchRef}>
+          <div className="md:hidden" ref={mobileSearchRef}>
             <button
               className="btn-secondary px-3 py-3"
               onClick={() => {
@@ -363,56 +363,58 @@ const Navbar = ({ cartCount }) => {
             </button>
 
             {mobileSearchOpen ? (
-              <div className="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(22rem,calc(100vw-2rem))] rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-[0_24px_80px_rgba(17,31,53,0.14)] dark:border-slate-800 dark:bg-slate-950">
-                <form className="relative" onSubmit={submitSearch}>
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    className="input h-12 bg-white pl-11 pr-20 dark:bg-slate-900"
-                    placeholder="Search products, brands, shops"
-                    value={searchTerm}
-                    autoFocus
-                    onFocus={() => setMobileSearchOpen(true)}
-                    onChange={(event) => {
-                      setSearchTerm(event.target.value);
-                      setMobileSearchOpen(true);
-                    }}
-                  />
-                  <button className="btn-primary absolute right-1.5 top-1.5 px-3 py-2 text-sm" type="submit">
-                    Go
-                  </button>
-                </form>
+              <div className="fixed inset-x-0 top-[88px] z-50 px-4">
+                <div className="mx-auto w-full max-w-7xl rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-[0_24px_80px_rgba(17,31,53,0.14)] dark:border-slate-800 dark:bg-slate-950">
+                  <form className="relative" onSubmit={submitSearch}>
+                    <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <input
+                      className="input h-12 bg-white pl-11 pr-20 dark:bg-slate-900"
+                      placeholder="Search products, brands, shops"
+                      value={searchTerm}
+                      autoFocus
+                      onFocus={() => setMobileSearchOpen(true)}
+                      onChange={(event) => {
+                        setSearchTerm(event.target.value);
+                        setMobileSearchOpen(true);
+                      }}
+                    />
+                    <button className="btn-primary absolute right-1.5 top-1.5 px-3 py-2 text-sm" type="submit">
+                      Go
+                    </button>
+                  </form>
 
-                {searchTerm.trim() ? (
-                  <div className="mt-3 max-h-[60vh] overflow-y-auto">
-                    {suggestions.length ? (
-                      <div className="space-y-2">
-                        {suggestions.map((item) => (
-                          <button
-                            key={item.id}
-                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-brand-50 dark:hover:bg-slate-900"
-                            onClick={() => selectSuggestion(item.to)}
-                          >
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
-                              {renderSuggestionIcon(item.type)}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">{item.title}</p>
-                              <p className="truncate text-xs text-slate-500 dark:text-slate-400">{item.subtitle}</p>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="rounded-2xl bg-brand-50/50 px-4 py-5 text-center text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
-                        No close matches yet. Press go to search the full catalog.
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <p className="mt-3 px-2 text-xs text-slate-500 dark:text-slate-400">
-                    Try fuzzy search like product names, brands, categories, or short forms.
-                  </p>
-                )}
+                  {searchTerm.trim() ? (
+                    <div className="mt-3 max-h-[60vh] overflow-y-auto">
+                      {suggestions.length ? (
+                        <div className="space-y-2">
+                          {suggestions.map((item) => (
+                            <button
+                              key={item.id}
+                              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-brand-50 dark:hover:bg-slate-900"
+                              onClick={() => selectSuggestion(item.to)}
+                            >
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
+                                {renderSuggestionIcon(item.type)}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">{item.title}</p>
+                                <p className="truncate text-xs text-slate-500 dark:text-slate-400">{item.subtitle}</p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="rounded-2xl bg-brand-50/50 px-4 py-5 text-center text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+                          No close matches yet. Press go to search the full catalog.
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="mt-3 px-2 text-xs text-slate-500 dark:text-slate-400">
+                      Try fuzzy search like product names, brands, categories, or short forms.
+                    </p>
+                  )}
+                </div>
               </div>
             ) : null}
           </div>
