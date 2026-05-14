@@ -13,15 +13,30 @@ const navLinkClass = ({ isActive }) =>
   }`;
 
 const normalizeText = (value) => `${value || ""}`.trim().toLowerCase();
+const compactText = (value) => normalizeText(value).replace(/[^a-z0-9]+/g, "");
+const acronymText = (value = "") =>
+  `${value || ""}`
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((part) => part[0]?.toLowerCase() || "")
+    .join("");
 
 const fuzzyScore = (needle, haystack) => {
   const query = normalizeText(needle);
   const target = normalizeText(haystack);
+  const compactQuery = compactText(needle);
+  const compactTarget = compactText(haystack);
+  const acronymTarget = acronymText(haystack);
 
   if (!query || !target) return 0;
   if (target === query) return 120;
+  if (compactTarget === compactQuery) return 112;
   if (target.startsWith(query)) return 96;
+  if (compactTarget.startsWith(compactQuery)) return 90;
   if (target.includes(query)) return 78;
+  if (compactTarget.includes(compactQuery)) return 74;
+  if (acronymTarget && (acronymTarget === compactQuery || acronymTarget.startsWith(compactQuery))) return 68;
 
   let score = 0;
   let pointer = 0;
@@ -118,9 +133,11 @@ const Navbar = ({ cartCount }) => {
   const [productsIndex, setProductsIndex] = useState([]);
   const [shopsIndex, setShopsIndex] = useState([]);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const searchRef = useRef(null);
+  const desktopSearchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
   const firstName = user?.name?.trim()?.split(/\s+/)[0] || "Account";
   const isSeller = user?.role === "seller";
   const isAdmin = user?.role === "admin";
@@ -155,12 +172,19 @@ const Navbar = ({ cartCount }) => {
     const params = new URLSearchParams(location.search);
     setSearchTerm(params.get("search") || "");
     setSearchOpen(false);
+    setMobileSearchOpen(false);
   }, [location.pathname, location.search]);
 
   useEffect(() => {
     const onPointerDown = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
+      const clickedDesktopSearch = desktopSearchRef.current?.contains(event.target);
+      const clickedMobileSearch = mobileSearchRef.current?.contains(event.target);
+
+      if (!clickedDesktopSearch) {
         setSearchOpen(false);
+      }
+      if (!clickedMobileSearch) {
+        setMobileSearchOpen(false);
       }
     };
 
@@ -217,6 +241,7 @@ const Navbar = ({ cartCount }) => {
 
     navigate(`/catalog${params.toString() ? `?${params.toString()}` : ""}`);
     setSearchOpen(false);
+    setMobileSearchOpen(false);
     if (closeDrawer) {
       closeMobileMenu();
     }
@@ -224,6 +249,7 @@ const Navbar = ({ cartCount }) => {
 
   const selectSuggestion = (to, { closeDrawer = false } = {}) => {
     setSearchOpen(false);
+    setMobileSearchOpen(false);
     navigate(to);
     if (closeDrawer) {
       closeMobileMenu();
@@ -273,7 +299,7 @@ const Navbar = ({ cartCount }) => {
           ) : null}
         </nav>
 
-        <div className="relative hidden max-w-xl flex-1 xl:block" ref={searchRef}>
+        <div className="relative hidden max-w-xl flex-1 xl:block" ref={desktopSearchRef}>
           <form className="relative" onSubmit={submitSearch}>
             <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
@@ -324,6 +350,72 @@ const Navbar = ({ cartCount }) => {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="relative md:hidden" ref={mobileSearchRef}>
+            <button
+              className="btn-secondary px-3 py-3"
+              onClick={() => {
+                setMobileSearchOpen((open) => !open);
+                setSearchOpen(false);
+              }}
+              aria-label="Open search"
+            >
+              <Search className="h-4 w-4" />
+            </button>
+
+            {mobileSearchOpen ? (
+              <div className="absolute right-0 top-[calc(100%+0.75rem)] z-50 w-[min(22rem,calc(100vw-2rem))] rounded-[28px] border border-brand-100/80 bg-white p-3 shadow-[0_24px_80px_rgba(17,31,53,0.14)] dark:border-slate-800 dark:bg-slate-950">
+                <form className="relative" onSubmit={submitSearch}>
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <input
+                    className="input h-12 bg-white pl-11 pr-20 dark:bg-slate-900"
+                    placeholder="Search products, brands, shops"
+                    value={searchTerm}
+                    autoFocus
+                    onFocus={() => setMobileSearchOpen(true)}
+                    onChange={(event) => {
+                      setSearchTerm(event.target.value);
+                      setMobileSearchOpen(true);
+                    }}
+                  />
+                  <button className="btn-primary absolute right-1.5 top-1.5 px-3 py-2 text-sm" type="submit">
+                    Go
+                  </button>
+                </form>
+
+                {searchTerm.trim() ? (
+                  <div className="mt-3 max-h-[60vh] overflow-y-auto">
+                    {suggestions.length ? (
+                      <div className="space-y-2">
+                        {suggestions.map((item) => (
+                          <button
+                            key={item.id}
+                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left transition hover:bg-brand-50 dark:hover:bg-slate-900"
+                            onClick={() => selectSuggestion(item.to)}
+                          >
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-900/40">
+                              {renderSuggestionIcon(item.type)}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">{item.title}</p>
+                              <p className="truncate text-xs text-slate-500 dark:text-slate-400">{item.subtitle}</p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="rounded-2xl bg-brand-50/50 px-4 py-5 text-center text-sm text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+                        No close matches yet. Press go to search the full catalog.
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="mt-3 px-2 text-xs text-slate-500 dark:text-slate-400">
+                    Try fuzzy search like product names, brands, categories, or short forms.
+                  </p>
+                )}
+              </div>
+            ) : null}
+          </div>
           <button className="btn-secondary hidden px-3 py-3 md:inline-flex" onClick={toggleTheme}>
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
