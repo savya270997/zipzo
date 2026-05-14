@@ -450,6 +450,156 @@ const categoryConfigs = [
       ["Hand Blender", "Lightweight blender for soups, shakes, and sauces."],
       ["Sandwich Maker", "Non-stick toaster for quick breakfast sandwiches."]
     ]
+  },
+  {
+    category: "Footwear",
+    brand: "StrideCraft",
+    baseWeight: "1 pair",
+    priceStart: 799,
+    tags: ["footwear", "fashion"],
+    imageQuery: "footwear,shoes",
+    items: [
+      ["Running Shoes", "Lightweight running shoes with cushioned everyday comfort."],
+      ["Slides Comfort", "Easy slip-on slides for home, errands, and travel."],
+      ["Canvas Sneakers", "Classic lace-up sneakers with clean street-ready style."],
+      ["Training Shoes", "Stable training pair for gym sessions and walks."],
+      ["Kids Sport Shoes", "Durable sporty shoes designed for active kids."]
+    ]
+  },
+  {
+    category: "Home Decor",
+    brand: "CasaBloom",
+    baseWeight: "1 unit",
+    priceStart: 349,
+    tags: ["decor", "home"],
+    imageQuery: "home,decor",
+    items: [
+      ["Scented Candle Jar", "Mood-setting candle with a warm lingering fragrance."],
+      ["Boho Cushion Cover", "Textured cushion cover to refresh your sofa corners."],
+      ["Table Vase", "Minimal decorative vase for living room and dining setups."],
+      ["Wall Frame Set", "Coordinated art frames for a polished gallery wall."],
+      ["Fairy Lights String", "Soft ambient lights for bedrooms and festive styling."]
+    ]
+  },
+  {
+    category: "Health & Wellness",
+    brand: "Wellspire",
+    baseWeight: "1 pack",
+    priceStart: 259,
+    tags: ["health", "wellness"],
+    imageQuery: "health,wellness",
+    items: [
+      ["Multivitamin Tablets", "Daily nutrition support for active lifestyles."],
+      ["Electrolyte Drink Mix", "Hydration support with refreshing citrus flavor."],
+      ["Vitamin D3 Capsules", "Convenient wellness capsules for daily routines."],
+      ["Herbal Sleep Tea", "Calming herbal infusion for restful evening wind-downs."],
+      ["Protein Energy Bars", "On-the-go snack bars with balanced protein support."]
+    ]
+  },
+  {
+    category: "Office Essentials",
+    brand: "WorkGrid",
+    baseWeight: "1 unit",
+    priceStart: 189,
+    tags: ["office", "work"],
+    imageQuery: "office,desk",
+    items: [
+      ["Wireless Mouse", "Responsive mouse for smooth work and study sessions."],
+      ["Laptop Stand", "Ergonomic stand for better posture and desk airflow."],
+      ["Document Folder Set", "Neat file folders for organized office paperwork."],
+      ["Desk Organizer Tray", "Multi-slot tray to keep stationery within reach."],
+      ["Webcam Cover Pack", "Simple privacy covers for laptops and monitors."]
+    ]
+  },
+  {
+    category: "Travel",
+    brand: "TripNest",
+    baseWeight: "1 unit",
+    priceStart: 499,
+    tags: ["travel", "utility"],
+    imageQuery: "travel,accessories",
+    items: [
+      ["Packing Cubes Set", "Travel cubes that keep clothing sorted and compact."],
+      ["Neck Pillow Memory", "Soft neck pillow for flights, buses, and road trips."],
+      ["Passport Holder", "Slim organizer for passport, cards, and boarding slips."],
+      ["Luggage Tag Duo", "Durable travel tags for quick suitcase identification."],
+      ["Foldable Duffel Bag", "Extra travel bag that folds down when not in use."]
+    ]
+  },
+  {
+    category: "Watches & Accessories",
+    brand: "UrbanDial",
+    baseWeight: "1 unit",
+    priceStart: 899,
+    tags: ["watches", "accessories"],
+    imageQuery: "watch,accessories",
+    items: [
+      ["Classic Analog Watch", "Versatile wrist watch with a timeless everyday dial."],
+      ["Smartwatch Strap", "Comfortable replacement strap with secure fit."],
+      ["Sunglasses UV400", "Stylish sunglasses with strong everyday sun protection."],
+      ["Minimal Wallet", "Compact wallet built for cards, cash, and quick access."],
+      ["Bracelet Combo", "Layered accessory set for modern casual styling."]
+    ]
+  },
+  {
+    category: "Automotive",
+    brand: "RoadCore",
+    baseWeight: "1 unit",
+    priceStart: 279,
+    tags: ["automotive", "car"],
+    imageQuery: "car,accessories",
+    items: [
+      ["Car Perfume Fresh", "Long-lasting cabin fragrance for cleaner-feeling drives."],
+      ["Microfiber Cleaning Cloth", "Soft cloth for dashboards, glass, and touch screens."],
+      ["Tyre Pressure Gauge", "Compact tool for routine tyre pressure checks."],
+      ["Car Vacuum Mini", "Portable cleaner for crumbs, dust, and small spills."],
+      ["Seat Headrest Hook", "Utility hook for bags, groceries, and daily essentials."]
+    ]
+  },
+  {
+    category: "Party Supplies",
+    brand: "CelebrateIt",
+    baseWeight: "1 pack",
+    priceStart: 149,
+    tags: ["party", "events"],
+    imageQuery: "party,supplies",
+    items: [
+      ["Balloon Arch Kit", "Easy party setup kit for birthdays and special events."],
+      ["Paper Plate Combo", "Disposable plate set for quick entertaining."],
+      ["Birthday Banner", "Bright decorative banner for festive celebrations."],
+      ["Photo Booth Props", "Fun party prop set for group pictures and reels."],
+      ["LED Cake Topper", "Light-up topper to elevate celebration cakes instantly."]
+    ]
+  },
+  {
+    category: "Gardening",
+    brand: "LeafLoom",
+    baseWeight: "1 unit",
+    priceStart: 229,
+    tags: ["gardening", "plants"],
+    imageQuery: "gardening,plants",
+    items: [
+      ["Watering Can", "Easy-pour can for indoor plants and balcony gardens."],
+      ["Plant Pot Set", "Minimal pot combo for herbs, flowers, and home greens."],
+      ["Garden Tool Kit", "Starter tool kit for pruning, digging, and potting."],
+      ["Indoor Plant Feed", "Balanced nutrient mix for healthier leafy growth."],
+      ["Seed Starter Tray", "Tray set to begin seedlings cleanly at home."]
+    ]
+  },
+  {
+    category: "Smart Home",
+    brand: "NexaNest",
+    baseWeight: "1 unit",
+    priceStart: 1299,
+    tags: ["smart-home", "electronics"],
+    imageQuery: "smart,home",
+    items: [
+      ["Smart Bulb RGB", "App-controlled bulb with dimming and color scenes."],
+      ["WiFi Plug Mini", "Smart plug to automate appliances from your phone."],
+      ["Video Door Sensor", "Compact sensor setup for simple door status alerts."],
+      ["Motion Night Light", "Automatic night light for hallways and bedrooms."],
+      ["Bluetooth Tracker Tag", "Attach-and-find tracker for keys, bags, and gear."]
+    ]
   }
 ];
 
